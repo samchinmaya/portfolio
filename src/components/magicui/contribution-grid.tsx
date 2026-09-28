@@ -1,6 +1,13 @@
 import { cn } from "@/lib/utils";
 
 // GitHub's contribution palette, level 0 (empty) to 4 (busiest), light then dark.
+// Bright greens used when a square "lights up".
+const FLASH = [
+  "fill-[#40c463] dark:fill-[#26a641]",
+  "fill-[#30a14e] dark:fill-[#39d353]",
+  "fill-[#9be9a8] dark:fill-[#006d32]",
+];
+
 const LEVELS = [
   "fill-[#ebedf0] dark:fill-[#161b22]",
   "fill-[#9be9a8] dark:fill-[#0e4429]",
@@ -49,19 +56,46 @@ export function ContributionGrid({
     for (let d = 0; d < days; d++) {
       const r = rand() * (0.55 + weekActivity * 0.6);
       const level = r < 0.35 ? 0 : r < 0.6 ? 1 : r < 0.8 ? 2 : r < 0.95 ? 3 : 4;
-      const twinkle = level > 0 && rand() < 0.12;
+      const x = w * step;
+      const y = d * step;
+      const twinkle = level > 0 && rand() < 0.25;
       cells.push(
         <rect
           key={`${w}-${d}`}
-          x={w * step}
-          y={d * step}
+          x={x}
+          y={y}
           width={cellSize}
           height={cellSize}
           rx={2}
           className={cn(LEVELS[level], twinkle && "animate-contribution")}
-          style={twinkle ? { animationDelay: `${(rand() * 4).toFixed(2)}s` } : undefined}
+          style={
+            twinkle
+              ? {
+                  animationDelay: `${(rand() * 5).toFixed(2)}s`,
+                  animationDuration: `${(2.5 + rand() * 3).toFixed(2)}s`,
+                }
+              : undefined
+          }
         />
       );
+      // Some squares (mostly empty ones) light up green and fade back out.
+      if (rand() < (level === 0 ? 0.22 : 0.08)) {
+        cells.push(
+          <rect
+            key={`${w}-${d}-flash`}
+            x={x}
+            y={y}
+            width={cellSize}
+            height={cellSize}
+            rx={2}
+            className={cn(FLASH[Math.floor(rand() * FLASH.length)], "animate-contribution-flash")}
+            style={{
+              animationDelay: `${(rand() * 8).toFixed(2)}s`,
+              animationDuration: `${(3 + rand() * 4).toFixed(2)}s`,
+            }}
+          />
+        );
+      }
     }
   }
 

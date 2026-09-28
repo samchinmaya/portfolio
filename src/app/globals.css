@@ -237,7 +237,17 @@
 }
 @keyframes contribution-twinkle {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes contribution-flash {
+  0%, 55%, 100% { opacity: 0; }
+  70%, 80% { opacity: 1; }
+}
+
+.animate-contribution-flash {
+  opacity: 0;
+  animation: contribution-flash 5s ease-in-out infinite;
 }
 
 .animate-contribution {
@@ -246,4 +256,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animate-contribution { animation: none; }
+  .animate-contribution-flash { animation: none; }
 }
