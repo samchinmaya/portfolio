@@ -22,7 +22,7 @@ const skills: Skill[] = [
 export const DATA = {
   name: "Chinmaya Samantara",
   initials: "CS",
-  url: "https://samchinmaya.github.io",
+  url: "https://samchinmaya.vercel.app",
   location: "",
   locationLink: "",
   description:
