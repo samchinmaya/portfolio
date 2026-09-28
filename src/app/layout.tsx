@@ -63,6 +63,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* The site ships its own dark theme; ask dark-mode extensions (e.g. Dark Reader) not to recolour it */}
+        <meta name="darkreader-lock" />
+        <meta name="color-scheme" content="dark light" />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative",
