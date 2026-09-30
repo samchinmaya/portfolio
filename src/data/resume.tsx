@@ -62,7 +62,7 @@ export const DATA = {
   projects: [
     {
       title: "VideoTube",
-      href: "https://github.com/samchinmaya/video-tube",
+      href: "https://samchinmaya.github.io/video-tube/",
       dates: "Sep 2026 - Present",
       active: true,
       description:
@@ -82,6 +82,11 @@ export const DATA = {
         "Vite",
       ],
       links: [
+        {
+          type: "Website",
+          href: "https://samchinmaya.github.io/video-tube/",
+          icon: <Icons.globe className="size-3" />,
+        },
         {
           type: "Source",
           href: "https://github.com/samchinmaya/video-tube",
