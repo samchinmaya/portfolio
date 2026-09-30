@@ -1,6 +1,8 @@
 import { Icons } from "@/components/icons";
 import { HomeIcon } from "lucide-react";
 import { Nodejs } from "@/components/ui/svgs/nodejs";
+import { ReactLight } from "@/components/ui/svgs/reactLight";
+import { Typescript } from "@/components/ui/svgs/typescript";
 
 type Skill = {
   name: string;
@@ -9,6 +11,7 @@ type Skill = {
 
 const skills: Skill[] = [
   { name: "JavaScript" },
+  { name: "TypeScript", icon: Typescript },
   { name: "Node.js", icon: Nodejs },
   { name: "Express" },
   { name: "MongoDB" },
@@ -16,6 +19,8 @@ const skills: Skill[] = [
   { name: "REST APIs" },
   { name: "JWT Auth" },
   { name: "Cloudinary" },
+  { name: "React", icon: ReactLight },
+  { name: "Tailwind CSS" },
   { name: "Git & GitHub" },
 ];
 
@@ -26,9 +31,9 @@ export const DATA = {
   location: "",
   locationLink: "",
   description:
-    "Backend developer who learns by building. Currently building VideoTube, a YouTube-style video platform backend.",
+    "Backend-focused developer who learns by building. Currently building VideoTube, a full-stack YouTube-style video platform.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm growing [VideoTube](https://github.com/samchinmaya/video-tube) feature by feature with Node.js, Express and MongoDB, and I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm growing [VideoTube](https://github.com/samchinmaya/video-tube) feature by feature, with a Node.js, Express and MongoDB API and a React + TypeScript frontend, and I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
@@ -61,7 +66,7 @@ export const DATA = {
       dates: "Sep 2026 - Present",
       active: true,
       description:
-        "The backend of a YouTube-style video platform. User registration with avatar and cover image uploads (Multer → Cloudinary), login, logout and token refresh with JWT access and refresh tokens in httpOnly cookies, bcrypt password hashing, auth middleware for protected routes, and a video model with paginated feeds via aggregation. Next up: video uploads, comments, likes and subscriptions.",
+        "A full-stack YouTube-style video platform. The Express + MongoDB API handles registration with avatar and cover image uploads (Multer → Cloudinary), JWT access and refresh tokens in httpOnly cookies, profile and password updates, channel profiles with subscriber counts built from aggregation pipelines, and subscribe/unsubscribe. The React + TypeScript frontend has home, search, watch, channel, upload and settings pages, protected routes, and automatic token refresh on expired sessions. Next up: backend routes for video uploads, comments, likes and watch history (the frontend uses sample data for these for now).",
       technologies: [
         "Node.js",
         "Express 5",
@@ -71,6 +76,10 @@ export const DATA = {
         "bcrypt",
         "Multer",
         "Cloudinary",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
       ],
       links: [
         {
@@ -79,7 +88,7 @@ export const DATA = {
           icon: <Icons.github className="size-3" />,
         },
       ],
-      image: "",
+      image: "/videotube.jpg",
       video: "",
     },
   ],
