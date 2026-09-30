@@ -66,7 +66,7 @@ export const DATA = {
       dates: "Sep 2026 - Present",
       active: true,
       description:
-        "A full-stack YouTube-style video platform. The Express + MongoDB API handles registration with avatar and cover image uploads (Multer → Cloudinary), JWT access and refresh tokens in httpOnly cookies, profile and password updates, channel profiles with subscriber counts built from aggregation pipelines, and subscribe/unsubscribe. The React + TypeScript frontend has home, search, watch, channel, upload and settings pages, protected routes, and automatic token refresh on expired sessions. Next up: backend routes for video uploads, comments, likes and watch history (the frontend uses sample data for these for now).",
+        "A full-stack YouTube-style video platform. The Express + MongoDB API handles registration with avatar and cover image uploads (Multer → Cloudinary), JWT access and refresh tokens in httpOnly cookies, profile and password updates, channel profiles with subscriber counts built from aggregation pipelines, and subscribe/unsubscribe. The React + TypeScript frontend has home, search, watch, channel, upload and settings pages, protected routes, and automatic token refresh on expired sessions. The frontend is live on GitHub Pages. Videos, comments and likes use sample data for now, so every video plays the same placeholder clip. Next up: backend routes for video uploads, comments, likes and watch history, so each video plays its own upload.",
       technologies: [
         "Node.js",
         "Express 5",
