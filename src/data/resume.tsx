@@ -69,8 +69,20 @@ export const DATA = {
       dates: "In progress · Oct 2026",
       active: true,
       description:
-        "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule. Done: the PostgreSQL schema with Drizzle ORM and ArkType validation. Next: the execution engine, REST API, Redis queue workers and AWS deployment.",
-      technologies: ["TypeScript", "Bun", "Elysia", "PostgreSQL", "Drizzle ORM", "Redis", "AWS"],
+        "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule.\n\n" +
+        "- **Done:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), typed JSONB workflow graphs, ArkType validation\n" +
+        "- **Next:** execution engine, Elysia REST API with Swagger docs, BullMQ + Redis workers, better-auth login, React Flow editor\n" +
+        "- **Deploy:** Docker on AWS EC2 with GitHub Actions CI/CD",
+      technologies: [
+        "TypeScript",
+        "Bun",
+        "Elysia",
+        "PostgreSQL",
+        "Drizzle ORM",
+        "ArkType",
+        "Redis",
+        "AWS",
+      ],
       links: [
         {
           type: "Source",
@@ -87,8 +99,20 @@ export const DATA = {
       dates: "Upcoming · Oct 2026",
       active: false,
       description:
-        "Planned: a centralized crypto exchange that uses fake money. It will have an in-memory matching engine with price-time priority, limit and market orders, Redis queues between services, a live order book over WebSockets, crash recovery, and deployment on AWS with Kubernetes.",
-      technologies: ["TypeScript", "Bun", "Redis", "WebSockets", "React", "AWS"],
+        "Planned, not started yet: a centralized crypto exchange that uses fake money, built after the n8n clone.\n\n" +
+        "- **V1:** in-memory matching engine with price-time priority, limit and market orders, locked/available balances, Redis queues, live order book over WebSockets\n" +
+        "- **V2:** multiple markets, maker/taker fees, candles and tickers, crash recovery, signed API keys for trading bots\n" +
+        "- **Infra:** Docker, Kubernetes and CI/CD on AWS",
+      technologies: [
+        "TypeScript",
+        "Bun",
+        "Redis",
+        "WebSockets",
+        "React",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+      ],
       links: [],
       image: "",
       video: "",
