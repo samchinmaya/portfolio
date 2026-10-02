@@ -64,26 +64,13 @@ export const DATA = {
   },
   projects: [
     {
-      title: "n8n Clone (Workflow Automation)",
+      title: "n8n Clone",
       href: "https://github.com/samchinmaya/n8n",
-      dates: "Oct 2026 - Present",
+      dates: "In progress · Oct 2026",
       active: true,
       description:
-        "A workflow automation tool inspired by n8n, built from scratch in TypeScript on Bun. Users connect nodes (HTTP Request, Telegram, If...) on a canvas, and a trigger (manual, webhook or cron) runs them in order, passing each node's output to the next. Done so far: the PostgreSQL schema with Drizzle ORM (users, workflows, encrypted credentials, execution history with status and trigger enums, cascading deletes), workflow graphs stored as typed JSONB, and node/edge validation with ArkType, which provides both runtime checks and TypeScript types. In progress: the execution engine, an Elysia REST API with Swagger docs, BullMQ + Redis background workers, better-auth login, a React Flow editor, and deployment on AWS EC2 with Docker and GitHub Actions.",
-      technologies: [
-        "TypeScript",
-        "Bun",
-        "Elysia",
-        "PostgreSQL",
-        "Neon",
-        "Drizzle ORM",
-        "ArkType",
-        "BullMQ",
-        "Redis",
-        "better-auth",
-        "Docker",
-        "AWS",
-      ],
+        "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule. Done: the PostgreSQL schema with Drizzle ORM and ArkType validation. Next: the execution engine, REST API, Redis queue workers and AWS deployment.",
+      technologies: ["TypeScript", "Bun", "Elysia", "PostgreSQL", "Drizzle ORM", "Redis", "AWS"],
       links: [
         {
           type: "Source",
@@ -91,6 +78,18 @@ export const DATA = {
           icon: <Icons.github className="size-3" />,
         },
       ],
+      image: "",
+      video: "",
+    },
+    {
+      title: "Crypto Exchange",
+      href: "",
+      dates: "Upcoming · Oct 2026",
+      active: false,
+      description:
+        "Planned: a centralized crypto exchange that uses fake money. It will have an in-memory matching engine with price-time priority, limit and market orders, Redis queues between services, a live order book over WebSockets, crash recovery, and deployment on AWS with Kubernetes.",
+      technologies: ["TypeScript", "Bun", "Redis", "WebSockets", "React", "AWS"],
+      links: [],
       image: "",
       video: "",
     },
