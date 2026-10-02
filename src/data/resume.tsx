@@ -1,30 +1,49 @@
 import { Icons } from "@/components/icons";
 import { HomeIcon } from "lucide-react";
-import { Nodejs } from "@/components/ui/svgs/nodejs";
-import { ReactLight } from "@/components/ui/svgs/reactLight";
-import { Typescript } from "@/components/ui/svgs/typescript";
+import type { IconType } from "react-icons";
+import {
+  SiBun,
+  SiCloudinary,
+  SiDrizzle,
+  SiExpress,
+  SiGit,
+  SiGithub,
+  SiJavascript,
+  SiJsonwebtokens,
+  SiMongodb,
+  SiMongoose,
+  SiNodedotjs,
+  SiOpenapiinitiative,
+  SiPostgresql,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+} from "react-icons/si";
 
 type Skill = {
   name: string;
-  icon?: (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
+  icon: IconType;
+  // brand colour; monochrome logos follow the text colour so they work in light and dark mode
+  color?: string;
 };
 
 const skills: Skill[] = [
-  { name: "JavaScript" },
-  { name: "TypeScript", icon: Typescript },
-  { name: "Node.js", icon: Nodejs },
-  { name: "Express" },
-  { name: "Bun" },
-  { name: "PostgreSQL" },
-  { name: "Drizzle ORM" },
-  { name: "MongoDB" },
-  { name: "Mongoose" },
-  { name: "REST APIs" },
-  { name: "JWT Auth" },
-  { name: "Cloudinary" },
-  { name: "React", icon: ReactLight },
-  { name: "Tailwind CSS" },
-  { name: "Git & GitHub" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E" },
+  { name: "Express", icon: SiExpress },
+  { name: "Bun", icon: SiBun },
+  { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+  { name: "Drizzle ORM", icon: SiDrizzle },
+  { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+  { name: "Mongoose", icon: SiMongoose },
+  { name: "REST APIs", icon: SiOpenapiinitiative, color: "#6BA539" },
+  { name: "JWT Auth", icon: SiJsonwebtokens },
+  { name: "Cloudinary", icon: SiCloudinary, color: "#3448C5" },
+  { name: "React", icon: SiReact, color: "#61DAFB" },
+  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "Git", icon: SiGit, color: "#F05032" },
+  { name: "GitHub", icon: SiGithub },
 ];
 
 export const DATA = {
