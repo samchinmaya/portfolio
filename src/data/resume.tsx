@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, starting with the database schema and moving on to the workflow engine, queues and deployment. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema and workflow engine done, and the API, queues and deployment next. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
@@ -89,8 +89,8 @@ export const DATA = {
       active: true,
       description:
         "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule.\n\n" +
-        "- **Done:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), typed JSONB workflow graphs, ArkType validation\n" +
-        "- **Next:** execution engine, Elysia REST API with Swagger docs, BullMQ + Redis workers, better-auth login, React Flow editor\n" +
+        "- **Done:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), ArkType validation, and a workflow engine that finds the trigger, follows the edges and passes each node's output to the next (Manual Trigger, HTTP Request and Set nodes)\n" +
+        "- **Next:** Elysia REST API with Swagger docs, BullMQ + Redis workers, better-auth login, React Flow editor\n" +
         "- **Deploy:** Docker on AWS EC2 with GitHub Actions CI/CD",
       technologies: [
         "TypeScript",
