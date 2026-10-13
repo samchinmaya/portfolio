@@ -22,7 +22,7 @@ export default async function Page() {
   const [contributions, prs] = await Promise.all([getContributions(), getMergedPRs()]);
 
   return (
-    <main className="min-h-dvh flex flex-col gap-14 relative">
+    <main className="min-h-dvh flex flex-col gap-14 relative mt-52 sm:mt-40">
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
           <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
