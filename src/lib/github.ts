@@ -38,40 +38,141 @@ export type MergedPR = {
   mergedAt: string;
 };
 
-// Merged pull requests to other people's repositories (own repos are excluded).
-export async function getMergedPRs(): Promise<MergedPR[] | null> {
-  const query = `author:${USERNAME} is:pr is:merged -user:${USERNAME}`;
+type SearchItem = {
+  title: string;
+  number: number;
+  html_url: string;
+  repository_url: string;
+  body: string | null;
+  created_at: string;
+  pull_request: { merged_at: string | null };
+};
+
+function githubHeaders(): HeadersInit {
   const headers: HeadersInit = { Accept: "application/vnd.github+json" };
   // Optional: set GITHUB_TOKEN on Vercel to avoid the unauthenticated rate limit.
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
+  return headers;
+}
 
+// Pull requests to other people's repositories (own repos are excluded).
+async function searchPRs(state: "is:merged" | "is:open"): Promise<SearchItem[] | null> {
+  const query = `author:${USERNAME} is:pr ${state} -user:${USERNAME}`;
   try {
     const res = await fetch(
       `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&sort=created&order=desc&per_page=100`,
-      { headers, next: { revalidate: REVALIDATE_SECONDS } }
+      { headers: githubHeaders(), next: { revalidate: REVALIDATE_SECONDS } }
     );
     if (!res.ok) return null;
     const data = await res.json();
-    return data.items.map(
-      (item: {
-        title: string;
-        number: number;
-        html_url: string;
-        repository_url: string;
-        pull_request: { merged_at: string };
-      }) => ({
-        title: item.title,
-        number: item.number,
-        url: item.html_url,
-        repo: item.repository_url.replace("https://api.github.com/repos/", ""),
-        mergedAt: item.pull_request.merged_at,
-      })
-    );
+    return data.items;
   } catch {
     return null;
   }
+}
+
+function repoOf(item: SearchItem) {
+  return item.repository_url.replace("https://api.github.com/repos/", "");
+}
+
+export async function getMergedPRs(): Promise<MergedPR[] | null> {
+  const items = await searchPRs("is:merged");
+  return (
+    items?.map((item) => ({
+      title: item.title,
+      number: item.number,
+      url: item.html_url,
+      repo: repoOf(item),
+      mergedAt: item.pull_request.merged_at ?? item.created_at,
+    })) ?? null
+  );
+}
+
+export type Screenshot = { url: string; label: string };
+
+export type PRDetail = {
+  title: string;
+  number: number;
+  url: string;
+  repo: string;
+  state: "merged" | "open";
+  // merge date for merged PRs, opening date for open ones
+  date: string;
+  mergedBy: string | null;
+  additions: number | null;
+  deletions: number | null;
+  changedFiles: number | null;
+  screenshots: Screenshot[];
+};
+
+// Screenshots from the PR description, e.g. ![before date](https://...png).
+// Returns the first "before" and first "after" image, or the first two if unlabelled.
+function extractScreenshots(body: string | null): Screenshot[] {
+  if (!body) return [];
+  const images: Screenshot[] = [];
+  for (const m of body.matchAll(/!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)/g)) {
+    images.push({ label: m[1].trim(), url: m[2] });
+  }
+  for (const m of body.matchAll(/<img\b[^>]*>/g)) {
+    const src = m[0].match(/src="([^"]+)"/)?.[1];
+    if (src) images.push({ label: m[0].match(/alt="([^"]*)"/)?.[1] ?? "", url: src });
+  }
+  const before = images.find((img) => /^before/i.test(img.label));
+  const after = images.find((img) => /^after/i.test(img.label));
+  if (before || after) return [before, after].filter((img): img is Screenshot => !!img);
+  return images.slice(0, 2);
+}
+
+// Who merged it and how big the change was. A merged PR never changes, so it's
+// cached for a day; open PRs refresh with everything else.
+async function getPRStats(repo: string, number: number, merged: boolean) {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}/pulls/${number}`, {
+      headers: githubHeaders(),
+      next: { revalidate: merged ? 86400 : REVALIDATE_SECONDS },
+    });
+    if (!res.ok) return null;
+    const pr = await res.json();
+    return {
+      mergedBy: (pr.merged_by?.login as string) ?? null,
+      additions: pr.additions as number,
+      deletions: pr.deletions as number,
+      changedFiles: pr.changed_files as number,
+    };
+  } catch {
+    return null;
+  }
+}
+
+// Merged and open PRs with screenshots and change stats. Null if GitHub search failed.
+export async function getPRDetails(): Promise<PRDetail[] | null> {
+  const [merged, open] = await Promise.all([searchPRs("is:merged"), searchPRs("is:open")]);
+  if (!merged) return null;
+  const items = [
+    ...(open ?? []).map((item) => ({ item, state: "open" as const })),
+    ...merged.map((item) => ({ item, state: "merged" as const })),
+  ];
+  return Promise.all(
+    items.map(async ({ item, state }) => {
+      const repo = repoOf(item);
+      const stats = await getPRStats(repo, item.number, state === "merged");
+      return {
+        title: item.title,
+        number: item.number,
+        url: item.html_url,
+        repo,
+        state,
+        date: item.pull_request.merged_at ?? item.created_at,
+        mergedBy: stats?.mergedBy ?? null,
+        additions: stats?.additions ?? null,
+        deletions: stats?.deletions ?? null,
+        changedFiles: stats?.changedFiles ?? null,
+        screenshots: extractScreenshots(item.body),
+      };
+    })
+  );
 }
 
 export function countByRepo(prs: MergedPR[] | null, repo: string) {
