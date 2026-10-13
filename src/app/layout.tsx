@@ -4,14 +4,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { ContributionGrid } from "@/components/magicui/contribution-grid";
 
-const geist = Geist({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -71,21 +69,12 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative",
-          geist.variable,
+          inter.variable,
           geistMono.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
           <TooltipProvider delayDuration={0}>
-            <div className="absolute inset-x-0 top-0 h-[260px] overflow-hidden z-0 flex justify-center">
-              <ContributionGrid
-                className="h-full w-full opacity-70 dark:opacity-80"
-                style={{
-                  maskImage: "linear-gradient(to bottom, black 30%, transparent)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 30%, transparent)",
-                }}
-              />
-            </div>
             <div className="relative z-10 max-w-2xl mx-auto py-12 pb-24 sm:py-24 px-6">
               {children}
             </div>

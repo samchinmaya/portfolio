@@ -8,7 +8,7 @@ export default function ProjectsSection() {
     return (
         <section id="projects">
             <div className="flex min-h-0 flex-col gap-y-6">
-                <h2 className="text-xl font-bold">Projects</h2>
+                <h2 className="text-xl font-semibold">Projects</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:-mx-24 xl:-mx-40">
                     {DATA.projects.map((project, id) => (
                         <BlurFade
