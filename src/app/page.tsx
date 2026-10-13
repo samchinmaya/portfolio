@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DATA } from "@/data/resume";
 import Markdown from "react-markdown";
 import ContactSection from "@/components/section/contact-section";
+import OpenSourceSection from "@/components/section/open-source-section";
 import ProjectsSection from "@/components/section/projects-section";
 import {
   Tooltip,
@@ -91,6 +92,11 @@ export default function Page() {
             ))}
           </div>
         </div>
+      </section>
+      <section id="open-source">
+        <BlurFade delay={BLUR_FADE_DELAY * 7}>
+          <OpenSourceSection />
+        </BlurFade>
       </section>
       <section id="projects">
         <BlurFade delay={BLUR_FADE_DELAY * 7}>

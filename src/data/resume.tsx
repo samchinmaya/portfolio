@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema and workflow engine done, and the API, queues and deployment next. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema and workflow engine done, and the API, queues and deployment next. I also contribute to open source: I've had over 30 pull requests merged into [Mifos X](https://github.com/openMF/web-app) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
@@ -81,6 +81,45 @@ export const DATA = {
       },
     },
   },
+  openSource: [
+    {
+      title: "Mifos X Web App",
+      href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+      dates: "28 merged PRs · Oct 2026",
+      description:
+        "The Angular front end of Mifos X, an open-source core banking platform used by microfinance institutions around the world.\n\n" +
+        "- Fixed dates breaking in Safari by reading every Fineract date through one parser ([#4087](https://github.com/openMF/web-app/pull/4087), [#4123](https://github.com/openMF/web-app/pull/4123))\n" +
+        "- Stopped duplicate clients, loans and savings accounts being created on a double-click ([#4070](https://github.com/openMF/web-app/pull/4070), [#4083](https://github.com/openMF/web-app/pull/4083))\n" +
+        "- Fixed meeting schedules and attendance for groups and centers ([#4098](https://github.com/openMF/web-app/pull/4098), [#4118](https://github.com/openMF/web-app/pull/4118))\n" +
+        "- Fixed edit forms that lost saved values for deposit, share and loan products",
+      technologies: ["Angular", "TypeScript", "RxJS", "Angular Material"],
+      links: [
+        {
+          type: "Merged PRs",
+          href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+          icon: <Icons.github className="size-3" />,
+        },
+      ],
+    },
+    {
+      title: "Apache Fineract",
+      href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+      dates: "3 merged PRs · Oct 2026",
+      description:
+        "The Java back end behind Mifos X, an Apache Software Foundation project that powers loans, savings and accounting for banks.\n\n" +
+        "- Returned the missing non-person details from `GET /clients/{clientId}` ([#6603](https://github.com/apache/fineract/pull/6603))\n" +
+        "- Fixed recording attendance for center meetings ([#6621](https://github.com/apache/fineract/pull/6621))\n" +
+        "- Fixed updating attendance on existing meetings ([#6627](https://github.com/apache/fineract/pull/6627))",
+      technologies: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"],
+      links: [
+        {
+          type: "Merged PRs",
+          href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+          icon: <Icons.github className="size-3" />,
+        },
+      ],
+    },
+  ],
   projects: [
     {
       title: "n8n Clone",
