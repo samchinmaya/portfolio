@@ -32,8 +32,9 @@ export default async function OpenSourcePage() {
   const other: MergedPR[] = (prs ?? []).filter((pr) => !listed.has(pr.repo));
 
   return (
-    // Break out of the layout's narrow column so the list can spread across the screen.
-    <main className="relative left-1/2 flex w-[min(72rem,calc(100vw-3rem))] -translate-x-1/2 flex-col gap-14">
+    // Break out of the layout's narrow column so the list can spread across the screen,
+    // and start below the animated grid at the top of the layout so the title stays readable.
+    <main className="relative left-1/2 mt-52 sm:mt-40 flex w-[min(72rem,calc(100vw-3rem))] -translate-x-1/2 flex-col gap-14">
       <BlurFade delay={BLUR_FADE_DELAY}>
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">Open Source</h1>
