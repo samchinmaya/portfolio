@@ -98,7 +98,7 @@ export const DATA = {
       repo: "apache/fineract",
       href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed attendance for center meetings, webhook creation, client collateral listing and client API responses. A fix for collection sheet repayments that were silently not saved is in review.",
+        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, attendance for center meetings, webhook creation, client collateral listing and client API responses.",
       technologies: ["Java", "Spring Boot", "PostgreSQL"],
     },
   ],
