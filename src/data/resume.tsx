@@ -84,10 +84,38 @@ export const DATA = {
       },
     },
   },
+  // Organizations on the open-source page, in display order. Keys are GitHub owners.
+  orgs: [
+    {
+      key: "openMF",
+      name: "Mifos Initiative",
+      href: "https://mifos.org",
+      summary: "Open-source core banking for microfinance and financial inclusion.",
+    },
+    {
+      key: "apache",
+      name: "Apache Software Foundation",
+      href: "https://www.apache.org",
+      summary: "Home of Apache Fineract, the core banking engine behind Mifos X.",
+    },
+    {
+      key: "processing",
+      name: "Processing Foundation",
+      href: "https://processingfoundation.org",
+      summary: "Creative coding tools, including p5.js and its web editor.",
+    },
+    {
+      key: "zulip",
+      name: "Zulip",
+      href: "https://zulip.com",
+      summary: "Open-source team chat organized into topics.",
+    },
+  ],
   openSource: [
     {
       title: "Mifos X Web App",
       repo: "openMF/web-app",
+      org: "openMF",
       href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
         "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
@@ -96,6 +124,7 @@ export const DATA = {
     {
       title: "Mifos X Web App (React)",
       repo: "openMF/mifos-x-web-app-react",
+      org: "openMF",
       href: "https://github.com/openMF/mifos-x-web-app-react/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
         "The new React rewrite of the Mifos X web app. Wired up the loan and savings account actions so they actually submit to Fineract: approving, disbursing and undoing loans, repayments, prepay and foreclosure, write-offs, charge-offs and interest waivers, and savings deposits, withdrawals, approval and activation.",
@@ -104,6 +133,7 @@ export const DATA = {
     {
       title: "Apache Fineract",
       repo: "apache/fineract",
+      org: "apache",
       href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
         "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, attendance for center meetings, webhook creation, client collateral listing and client API responses.",
