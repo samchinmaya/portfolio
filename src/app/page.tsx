@@ -5,7 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DATA } from "@/data/resume";
 import Markdown from "react-markdown";
 import { ContributionHeatmap } from "@/components/contribution-heatmap";
-import { getContributions, getMergedPRs } from "@/lib/github";
+import { getContributions, getMergedPRs, getOpenPRs, getRecentCommits } from "@/lib/github";
+import { AutoSlider } from "@/components/auto-slider";
 import ContactSection from "@/components/section/contact-section";
 import OpenSourceSection from "@/components/section/open-source-section";
 import ProjectsSection from "@/components/section/projects-section";
@@ -19,7 +20,12 @@ import {
 const BLUR_FADE_DELAY = 0.04;
 
 export default async function Page() {
-  const [contributions, prs] = await Promise.all([getContributions(), getMergedPRs()]);
+  const [contributions, prs, openPRs, n8nCommits] = await Promise.all([
+    getContributions(),
+    getMergedPRs(),
+    getOpenPRs(),
+    getRecentCommits("samchinmaya/n8n"),
+  ]);
 
   return (
     <main className="min-h-dvh flex flex-col gap-14 relative">
@@ -62,6 +68,33 @@ export default async function Page() {
           </BlurFade>
         </div>
       </section>
+      {(!!openPRs?.length || !!n8nCommits?.length) && (
+        <section id="now">
+          <BlurFade delay={BLUR_FADE_DELAY * 4.5}>
+            <div className="flex min-h-0 flex-col gap-y-4">
+              <h2 className="text-xl font-semibold">Right Now</h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {openPRs && openPRs.length > 0 && (
+                  <AutoSlider
+                    title={`Open pull requests · ${openPRs.length}`}
+                    slides={openPRs}
+                    href="/open-source"
+                    hrefLabel="All PRs"
+                  />
+                )}
+                {n8nCommits && n8nCommits.length > 0 && (
+                  <AutoSlider
+                    title="Latest commits · n8n clone"
+                    slides={n8nCommits}
+                    href="https://github.com/samchinmaya/n8n/commits"
+                    hrefLabel="All commits"
+                  />
+                )}
+              </div>
+            </div>
+          </BlurFade>
+        </section>
+      )}
       <section id="skills">
         <div className="flex min-h-0 flex-col gap-y-4">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>

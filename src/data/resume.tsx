@@ -169,23 +169,23 @@ export const DATA = {
       video: "",
     },
     {
-      title: "Crypto Exchange",
+      title: "Fomo Perps Clone",
       href: "",
       dates: "Upcoming · Oct 2026",
       active: false,
       description:
-        "Planned, not started yet: a centralized crypto exchange that uses fake money, built after the n8n clone.\n\n" +
-        "- **V1:** in-memory matching engine with price-time priority, limit and market orders, locked/available balances, Redis queues, live order book over WebSockets\n" +
-        "- **V2:** multiple markets, maker/taker fees, candles and tickers, crash recovery, signed API keys for trading bots\n" +
-        "- **Infra:** Docker, Kubernetes and CI/CD on AWS",
+        "Planned, not started yet: a perpetual futures exchange inspired by [fomo](https://defillama.com/protocol/fomo-perps), with fake money, built after the n8n clone. Traders go long or short with leverage on BTC, ETH and SOL without owning the coin.\n\n" +
+        "- **V1:** order book matching engine with limit and market orders, isolated margin with up to 20x leverage, positions with live PnL, a mark price from real exchange prices, and liquidations when margin runs out\n" +
+        "- **V2:** funding payments every hour between longs and shorts, take-profit and stop-loss orders, cross margin, candles and a live order book over WebSockets\n" +
+        "- **Infra:** Redis queues between the API and the engine, PostgreSQL for trade history, Docker and CI/CD on AWS",
       technologies: [
         "TypeScript",
         "Bun",
         "Redis",
+        "PostgreSQL",
         "WebSockets",
         "React",
         "Docker",
-        "Kubernetes",
         "AWS",
       ],
       links: [],

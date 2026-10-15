@@ -178,3 +178,50 @@ export async function getPRDetails(): Promise<PRDetail[] | null> {
 export function countByRepo(prs: MergedPR[] | null, repo: string) {
   return prs?.filter((pr) => pr.repo === repo).length ?? 0;
 }
+
+export type Slide = {
+  title: string;
+  url: string;
+  // repo for a PR, short sha for a commit
+  label: string;
+  date: string;
+};
+
+// Open PRs to other people's repositories, newest first.
+export async function getOpenPRs(): Promise<Slide[] | null> {
+  const items = await searchPRs("is:open");
+  return (
+    items?.map((item) => ({
+      title: item.title,
+      url: item.html_url,
+      label: `${repoOf(item)} #${item.number}`,
+      date: item.created_at,
+    })) ?? null
+  );
+}
+
+type CommitItem = {
+  sha: string;
+  html_url: string;
+  commit: { message: string; author: { date: string } };
+};
+
+// Latest commits pushed to one of my own repos.
+export async function getRecentCommits(repo: string, count = 8): Promise<Slide[] | null> {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}/commits?per_page=${count}`, {
+      headers: githubHeaders(),
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+    if (!res.ok) return null;
+    const commits: CommitItem[] = await res.json();
+    return commits.map((c) => ({
+      title: c.commit.message.split("\n")[0],
+      url: c.html_url,
+      label: c.sha.slice(0, 7),
+      date: c.commit.author.date,
+    }));
+  } catch {
+    return null;
+  }
+}
