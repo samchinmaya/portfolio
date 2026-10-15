@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema and workflow engine done, the REST API in progress, and triggers, login, the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 39 pull requests merged into [Mifos X](https://github.com/openMF/web-app) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema and workflow engine done, the REST API in progress, and triggers, login, the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 47 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -90,8 +90,16 @@ export const DATA = {
       repo: "openMF/web-app",
       href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari. Now also working on the new React version of the app.",
+        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
       technologies: ["Angular", "TypeScript", "RxJS"],
+    },
+    {
+      title: "Mifos X Web App (React)",
+      repo: "openMF/mifos-x-web-app-react",
+      href: "https://github.com/openMF/mifos-x-web-app-react/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+      summary:
+        "The new React rewrite of the Mifos X web app. Wired up the loan and savings account actions so they actually submit to Fineract: approving, disbursing and undoing loans, repayments, prepay and foreclosure, write-offs, charge-offs and interest waivers, and savings deposits, withdrawals, approval and activation.",
+      technologies: ["React", "TypeScript", "Redux Toolkit"],
     },
     {
       title: "Apache Fineract",
