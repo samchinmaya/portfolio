@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine and REST API done, and triggers, login, the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 47 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine, REST API and webhook trigger done, the cron trigger in progress, and login, the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 47 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -176,7 +176,9 @@ export const DATA = {
         "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule.\n\n" +
         "- **Done:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), ArkType validation, and a workflow engine that finds the trigger, follows the edges and passes each node's output to the next (Manual Trigger, HTTP Request and Set nodes)\n" +
         "- **Done:** Elysia REST API with Swagger docs to create, list, get and update workflows, plus a run endpoint that executes the workflow and saves each execution as running, then completed with its output or failed with the error\n" +
-        "- **Next:** webhook and cron triggers, better-auth login with encrypted credentials, React Flow editor\n" +
+        "- **Done:** webhook trigger: a POST to an active workflow's webhook URL runs it with the request body as input, and execution history endpoints list past runs\n" +
+        "- **In progress:** cron trigger to run workflows on a schedule\n" +
+        "- **Next:** better-auth login with encrypted credentials, React Flow editor\n" +
         "- **Deploy:** Docker on AWS EC2 with Caddy and GitHub Actions CI/CD",
       technologies: [
         "TypeScript",
