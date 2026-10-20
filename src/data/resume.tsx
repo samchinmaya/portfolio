@@ -118,7 +118,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, loan charge-offs and recurring deposit premature closures that always failed, recurring deposits opening with the amount due, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
+        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, loan charge-offs and recurring deposit premature closures that always failed, recurring deposits opening with the amount due, standing instructions not showing their saved day, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
       technologies: ["Angular", "TypeScript", "RxJS"],
     },
     {
@@ -136,7 +136,7 @@ export const DATA = {
       org: "apache",
       href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, withdrawal fees not reversing when a savings withdrawal is undone, recovery totals lagging a payment behind, attendance for center meetings, webhook creation, client collateral listing and client API responses.",
+        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, withdrawal fees not reversing when a savings withdrawal is undone, recovery totals lagging a payment behind, attendance for center meetings, webhook creation, client collateral listing and client API responses. Seven of these fixes ship in the Apache Fineract 1.16.0 release.",
       technologies: ["Java", "Spring Boot", "PostgreSQL"],
     },
   ],
