@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine, REST API, webhook and cron triggers done, and login, the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 53 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine, REST API, webhook and cron triggers done, email/password login with better-auth in progress, and the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 53 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -178,7 +178,8 @@ export const DATA = {
         "- **Done:** Elysia REST API with Swagger docs to create, list, get and update workflows, plus a run endpoint that executes the workflow and saves each execution as running, then completed with its output or failed with the error\n" +
         "- **Done:** webhook trigger: a POST to an active workflow's webhook URL runs it with the request body as input, and execution history endpoints list past runs\n" +
         "- **Done:** cron trigger: schedule workflows to run automatically, with a dedicated schedule node and execution manager\n" +
-        "- **Next:** better-auth login with encrypted credentials, React Flow editor\n" +
+        "- **In progress:** better-auth login: sign-up, login and cookie sessions work, with an Elysia plugin that adds an `auth` option to routes; next is making each user see only their own workflows and executions\n" +
+        "- **Next:** encrypted credentials, React Flow editor\n" +
         "- **Deploy:** Docker on AWS EC2 with Caddy and GitHub Actions CI/CD",
       technologies: [
         "TypeScript",
@@ -187,6 +188,7 @@ export const DATA = {
         "PostgreSQL",
         "Drizzle ORM",
         "ArkType",
+        "better-auth",
         "Swagger",
         "AWS",
       ],
