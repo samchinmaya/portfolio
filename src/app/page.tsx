@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -28,39 +29,60 @@ export default async function Page() {
   ]);
 
   return (
-    <main className="min-h-dvh flex flex-col gap-14 relative">
-      <section id="hero">
-        <div className="mx-auto w-full max-w-2xl space-y-8">
-          <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
-            <div className="gap-2 flex flex-col order-2 md:order-1">
+    <main className="min-h-dvh flex flex-col gap-20 pb-8 sm:gap-28">
+      <section id="hero" className="min-h-[calc(100dvh-11rem)] flex items-center">
+        <div className="w-full">
+          <div className="flex items-center justify-between border-y border-border py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            <span>Portfolio · 2026</span>
+            <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />Available to build</span>
+          </div>
+          <div className="grid gap-8 py-10 sm:grid-cols-[1fr_auto] sm:items-end sm:py-14">
+            <div>
               <BlurFadeText
                 delay={BLUR_FADE_DELAY}
-                className="text-3xl font-semibold tracking-tight sm:text-4xl"
-                yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]}`}
+                className="max-w-3xl text-[clamp(2.6rem,9vw,6.4rem)] font-semibold leading-[0.92] tracking-[-0.085em]"
+                yOffset={10}
+                text={DATA.name}
               />
               <BlurFadeText
-                className="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl"
-                delay={BLUR_FADE_DELAY}
+                className="mt-7 max-w-xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base"
+                delay={BLUR_FADE_DELAY * 2}
                 text={DATA.description}
               />
+              <BlurFade delay={BLUR_FADE_DELAY * 3} className="mt-8 flex flex-wrap gap-x-5 gap-y-3 text-sm">
+                <a href="#projects" className="group inline-flex items-center gap-2 border-b border-foreground pb-1 font-medium hover:text-muted-foreground transition-colors">
+                  Selected work <ArrowDownRight className="size-4 transition-transform group-hover:translate-y-0.5" />
+                </a>
+                <a href={DATA.contact.social.GitHub.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
+                  GitHub <ArrowUpRight className="size-3.5" />
+                </a>
+                <a href={DATA.contact.social.LinkedIn.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
+                  LinkedIn <ArrowUpRight className="size-3.5" />
+                </a>
+              </BlurFade>
             </div>
-            <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
-              <Avatar className="size-24 md:size-28 rounded-full border border-border">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                <AvatarFallback>{DATA.initials}</AvatarFallback>
-              </Avatar>
+            <BlurFade delay={BLUR_FADE_DELAY * 2} className="justify-self-start sm:justify-self-end">
+              <div className="relative">
+                <div className="absolute -inset-3 -z-10 rounded-full border border-dashed border-border" />
+                <Avatar className="size-28 rounded-full border border-border bg-background sm:size-36">
+                  <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                  <AvatarFallback>{DATA.initials}</AvatarFallback>
+                </Avatar>
+              </div>
             </BlurFade>
+          </div>
+          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            <span>Scroll to explore</span><span className="h-px w-12 bg-border" />
           </div>
         </div>
       </section>
       <section id="about">
-        <div className="flex min-h-0 flex-col gap-y-4">
+        <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <h2 className="text-xl font-semibold">About</h2>
+            <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">01 · About</h2>
           </BlurFade>
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
-            <div className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
+            <div className="prose max-w-2xl text-pretty font-sans text-sm leading-7 text-muted-foreground dark:prose-invert sm:text-base">
               <Markdown>
                 {DATA.summary}
               </Markdown>
@@ -71,8 +93,8 @@ export default async function Page() {
       {(!!openPRs?.length || !!n8nCommits?.length) && (
         <section id="now">
           <BlurFade delay={BLUR_FADE_DELAY * 4.5}>
-            <div className="flex min-h-0 flex-col gap-y-4">
-              <h2 className="text-xl font-semibold">Right Now</h2>
+            <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+              <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">02 · Right now</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {openPRs && openPRs.length > 0 && (
                   <AutoSlider
@@ -96,18 +118,18 @@ export default async function Page() {
         </section>
       )}
       <section id="skills">
-        <div className="flex min-h-0 flex-col gap-y-4">
+        <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-xl font-semibold">Skills</h2>
+            <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">03 · Stack</h2>
           </BlurFade>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex max-w-2xl flex-wrap gap-2">
             {DATA.skills.map((skill, id) => (
               <BlurFade key={skill.name} delay={BLUR_FADE_DELAY * 6 + id * 0.05}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div
                       aria-label={skill.name}
-                      className="border bg-background border-border ring-2 ring-border/20 rounded-xl size-11 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                      className="border border-border bg-background size-11 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
                     >
                       <skill.icon
                         aria-hidden
@@ -133,8 +155,8 @@ export default async function Page() {
       {contributions && (
         <section id="activity">
           <BlurFade delay={BLUR_FADE_DELAY * 7}>
-            <div className="flex min-h-0 flex-col gap-y-4">
-              <h2 className="text-xl font-semibold">GitHub Activity</h2>
+            <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+              <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">04 · Activity</h2>
               <ContributionHeatmap data={contributions} />
             </div>
           </BlurFade>
@@ -142,17 +164,26 @@ export default async function Page() {
       )}
       <section id="open-source">
         <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <OpenSourceSection prs={prs} />
+          <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">05 · Open source</div>
+            <OpenSourceSection prs={prs} />
+          </div>
         </BlurFade>
       </section>
       <section id="projects">
         <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <ProjectsSection />
+          <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">06 · Work</div>
+            <ProjectsSection />
+          </div>
         </BlurFade>
       </section>
       <section id="contact">
         <BlurFade delay={BLUR_FADE_DELAY * 8}>
-          <ContactSection />
+          <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+            <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">07 · Contact</div>
+            <ContactSection />
+          </div>
         </BlurFade>
       </section>
     </main>

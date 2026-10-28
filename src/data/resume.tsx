@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend-focused developer who learns by building. Currently building an n8n clone, a workflow automation tool written in TypeScript.",
   summary:
-    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine, REST API, webhook and cron triggers done, email/password login with better-auth in progress, and the editor and deployment next. I'm also building [MergeRoom](#projects), a React Native app that lets me run and approve my laptop's coding agent from my phone. I also contribute to open source: I've had 53 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
+    "I like working on what happens behind the screen. I take products millions of people use every day and rebuild their core from scratch — it's the best way I know to properly learn authentication, data modelling, file uploads and API design. Right now I'm building an [n8n clone](https://github.com/samchinmaya/n8n) step by step with Bun, Elysia, PostgreSQL and Drizzle ORM, with the database schema, workflow engine, REST API, webhook and cron triggers done, email/password login with better-auth in progress, and the editor and deployment next. I also contribute to open source: I've had 53 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react) and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I'm looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -141,32 +141,6 @@ export const DATA = {
     },
   ],
   projects: [
-    {
-      title: "MergeRoom",
-      href: "",
-      dates: "In progress · Oct 2026",
-      active: true,
-      description:
-        "A React Native app that puts my laptop's coding agent in my pocket: watch my repos, chat with Claude Code running on the laptop, and approve pushes and pull requests from anywhere. Free to run, end-to-end encrypted.\n\n" +
-        "- **App:** Expo / React Native with a 3D glass UI: a GPU-drawn agent orb (Skia shader) that shows what the agent is doing, cards that tilt with the phone, swipe-to-approve for pushes, haptics, dark and light themes, and a demo mode\n" +
-        "- **Relay:** Cloudflare Worker + Durable Objects, so the phone reaches the laptop from any network with no open ports. Pairing by QR code, messages encrypted end to end (XSalsa20-Poly1305), the relay only forwards ciphertext\n" +
-        "- **Laptop agent:** Node service that runs Claude Code headless; pushing and opening PRs stay blocked until approved on the phone, force-push and rm -rf are always blocked\n" +
-        "- **Tested:** end-to-end and security tests, and a 30-user, 30-minute load test with 23,669 requests and 0 errors\n" +
-        "- **Next:** deploy the relay, GitHub login with a pull request tracker, push notifications, Android release",
-      technologies: [
-        "React Native",
-        "Expo",
-        "TypeScript",
-        "Skia",
-        "Reanimated",
-        "Cloudflare Workers",
-        "WebSockets",
-        "Node.js",
-      ],
-      links: [],
-      image: "/mergeroom.jpg",
-      video: "",
-    },
     {
       title: "n8n Clone",
       href: "https://github.com/samchinmaya/n8n",

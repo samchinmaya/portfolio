@@ -125,6 +125,10 @@
     letter-spacing: -0.018em;
   }
 
+  ::selection {
+    background: oklch(0.72 0.17 150 / 35%);
+  }
+
   h1,
   h2,
   h3,
