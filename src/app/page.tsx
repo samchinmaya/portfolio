@@ -39,13 +39,13 @@ export default async function Page() {
             <div>
               <BlurFade delay={BLUR_FADE_DELAY}>
                 <p className="mb-5 text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">Backend developer · Open source contributor</p>
-                <h1 className="max-w-4xl text-[clamp(2.9rem,9vw,7.2rem)] font-semibold leading-[0.9] tracking-[-0.1em]">
+                <h1 className="max-w-6xl text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.1em]">
                   Serious about<br />
                   <span className="text-muted-foreground">the invisible parts</span><br />
                   of software.
                 </h1>
               </BlurFade>
-              <div className="mt-10 flex flex-col justify-between gap-8 border-t border-border pt-6 sm:flex-row sm:items-end">
+              <div className="mt-12 grid gap-8 border-t border-border pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
                 <BlurFade delay={BLUR_FADE_DELAY * 2} className="max-w-xl">
                   <p className="text-pretty text-sm leading-7 text-muted-foreground sm:text-base">{DATA.description}</p>
                 </BlurFade>
