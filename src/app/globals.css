@@ -5,6 +5,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  --font-sans: var(--font-jetbrains);
+  --font-mono: var(--font-jetbrains);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -119,6 +121,17 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "liga" 1, "calt" 1;
+    letter-spacing: -0.018em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.045em;
   }
 
   /* Shiki dual theme support */

@@ -4,19 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ContributionGrid } from "@/components/magicui/contribution-grid";
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-mono",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -70,8 +65,7 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased relative",
-          inter.variable,
-          geistMono.variable
+          jetbrainsMono.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
