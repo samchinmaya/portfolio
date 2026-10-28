@@ -38,11 +38,11 @@ export default async function Page() {
           <div className="py-16 sm:py-24">
             <div>
               <BlurFade delay={BLUR_FADE_DELAY}>
-                <p className="mb-5 text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">Backend developer · Open source contributor</p>
+                <p className="mb-5 text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">Backend developer · Quant developer in progress</p>
                 <h1 className="max-w-6xl text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.1em]">
                   Serious about<br />
-                  <span className="text-muted-foreground">the invisible parts</span><br />
-                  of software.
+                  <span className="text-muted-foreground">models, markets</span><br />
+                  &amp; systems.
                 </h1>
               </BlurFade>
               <div className="mt-12 grid gap-8 border-t border-border pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
@@ -50,7 +50,7 @@ export default async function Page() {
                   <p className="text-pretty text-sm leading-7 text-muted-foreground sm:text-base">{DATA.description}</p>
                 </BlurFade>
                 <BlurFade delay={BLUR_FADE_DELAY * 3} className="flex shrink-0 items-end gap-5">
-                  <div className="text-right text-[11px] uppercase leading-5 tracking-[0.13em] text-muted-foreground">Building with<br />TypeScript + systems</div>
+                  <div className="text-right text-[11px] uppercase leading-5 tracking-[0.13em] text-muted-foreground">Building toward<br />C++ + probability</div>
                   <div className="relative">
                     <div className="absolute -inset-2 -z-10 rounded-full border border-dashed border-border" />
                     <Avatar className="size-20 rounded-full border border-border bg-background sm:size-24">
@@ -96,7 +96,7 @@ export default async function Page() {
         <section id="now">
           <BlurFade delay={BLUR_FADE_DELAY * 4.5}>
             <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
-              <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">02 · Right now</h2>
+              <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">02 · Research + building</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {openPRs && openPRs.length > 0 && (
                   <AutoSlider
@@ -122,7 +122,7 @@ export default async function Page() {
       <section id="skills">
         <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
           <BlurFade delay={BLUR_FADE_DELAY * 5}>
-            <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">03 · Stack</h2>
+            <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">03 · Toolkit</h2>
           </BlurFade>
           <div className="flex max-w-2xl flex-wrap gap-2">
             {DATA.skills.map((skill, id) => (
