@@ -38,11 +38,11 @@ export default async function Page() {
           <div className="py-16 sm:py-24">
             <div>
               <BlurFade delay={BLUR_FADE_DELAY}>
-                <p className="mb-5 text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">Backend developer · Quant developer in progress</p>
+                <p className="mb-5 text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">Systems engineer · Quant developer in progress</p>
                 <h1 className="max-w-6xl text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.1em]">
-                  Serious about<br />
-                  <span className="text-muted-foreground">models, markets</span><br />
-                  &amp; systems.
+                  Working toward<br />
+                  <span className="text-muted-foreground">quantitative</span><br />
+                  systems.
                 </h1>
               </BlurFade>
               <div className="mt-12 grid gap-8 border-t border-border pt-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
@@ -50,7 +50,10 @@ export default async function Page() {
                   <p className="text-pretty text-sm leading-7 text-muted-foreground sm:text-base">{DATA.description}</p>
                 </BlurFade>
                 <BlurFade delay={BLUR_FADE_DELAY * 3} className="flex shrink-0 items-end gap-5">
-                  <div className="text-right text-[11px] uppercase leading-5 tracking-[0.13em] text-muted-foreground">Building toward<br />C++ + probability</div>
+                  <div className="text-right text-[11px] uppercase leading-5 tracking-[0.13em] text-muted-foreground">
+                    <span className="mb-1 block font-serif text-xl normal-case tracking-normal text-foreground">E[X | Fₜ]</span>
+                    Researching with<br />C++ + probability
+                  </div>
                   <div className="relative">
                     <div className="absolute -inset-2 -z-10 rounded-full border border-dashed border-border" />
                     <Avatar className="size-20 rounded-full border border-border bg-background sm:size-24">
@@ -74,7 +77,7 @@ export default async function Page() {
             </div>
           </div>
           <div className="flex items-center gap-3 border-t border-border pt-4 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            <span>Selected notes, work and contributions</span><span className="h-px w-12 bg-border" />
+            <span>Selected research, work and contributions</span><span className="h-px w-12 bg-border" />
           </div>
         </div>
       </section>
