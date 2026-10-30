@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend developer building toward quantitative development through C++, probability, and systems engineering. Currently building an n8n clone in TypeScript.",
   summary:
-    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had 53 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
+    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had 77 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -118,7 +118,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, loan charge-offs and recurring deposit premature closures that always failed, recurring deposits opening with the amount due, standing instructions not showing their saved day, savings interest posting, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
+        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, fixed deposits activating without debiting the linked savings account, group loan (GLIM) and group savings (GSIM) applications creating broken or duplicate accounts, standing instructions that could not be deleted, savings charges that could not be paid, loan charge-offs and recurring deposit premature closures that always failed, forms starting on the computer date instead of the business date, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
       technologies: ["Angular", "TypeScript", "RxJS"],
     },
     {
@@ -131,12 +131,21 @@ export const DATA = {
       technologies: ["React", "TypeScript", "Redux Toolkit"],
     },
     {
+      title: "Mifos X Self-Service MCP Server",
+      repo: "openMF/mcp-mifosx-self-service",
+      org: "openMF",
+      href: "https://github.com/openMF/mcp-mifosx-self-service/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+      summary:
+        "Model Context Protocol server that lets an AI assistant act for a Mifos X self-service customer. Kept the login inside the server instead of passing passwords through tools, made transfers a two-step prepare-and-confirm, and added tools for transfer fees and quotes, loan simulation, share accounts, branch locations and product details.",
+      technologies: ["Python", "MCP", "Pytest"],
+    },
+    {
       title: "Apache Fineract",
       repo: "apache/fineract",
       org: "apache",
       href: "https://github.com/apache/fineract/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, withdrawal fees not reversing when a savings withdrawal is undone, recovery totals lagging a payment behind, attendance for center meetings, webhook creation, client collateral listing and client API responses. Seven of these fixes ship in the Apache Fineract 1.16.0 release.",
+        "Java back end behind Mifos X, an Apache Software Foundation project. Fixed collection sheet repayments that were silently not saved, withdrawal fees not reversing when a savings withdrawal is undone, recovery totals lagging a payment behind, attendance for center meetings, webhook creation, client collateral listing, client API responses, and a loan product external ID change that wiped the product's accounting mappings. Seven of these fixes ship in the Apache Fineract 1.16.0 release.",
       technologies: ["Java", "Spring Boot", "PostgreSQL"],
     },
   ],
