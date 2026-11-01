@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend developer building toward quantitative development through C++, probability, and systems engineering. Currently building an n8n clone in TypeScript.",
   summary:
-    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had 77 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
+    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had 81 pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -138,6 +138,15 @@ export const DATA = {
       summary:
         "Model Context Protocol server that lets an AI assistant act for a Mifos X self-service customer. Kept the login inside the server instead of passing passwords through tools, made transfers a two-step prepare-and-confirm, and added tools for transfer fees and quotes, loan simulation, share accounts, branch locations and product details.",
       technologies: ["Python", "MCP", "Pytest"],
+    },
+    {
+      title: "Mifos X Self-Service Plugin",
+      repo: "openMF/selfservice-plugin",
+      org: "openMF",
+      href: "https://github.com/openMF/selfservice-plugin/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
+      summary:
+        "Fineract plugin behind the Mifos X mobile and online banking apps. Added self-service endpoints for loan guarantors, stopped a customer from moving a savings application to another client or a group, and fixed external beneficiaries that lost their IBAN or phone number or were saved where the customer could never see them.",
+      technologies: ["Java", "Spring Boot", "Fineract"],
     },
     {
       title: "Apache Fineract",
