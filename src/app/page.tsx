@@ -27,6 +27,11 @@ export default async function Page() {
     getRecentCommits("samchinmaya/n8n"),
   ]);
 
+  // The summary's merged PR count comes from GitHub (the repos listed under open source).
+  const listedRepos = new Set<string>(DATA.openSource.map((project) => project.repo));
+  const mergedCount = prs ? prs.filter((pr) => listedRepos.has(pr.repo)).length : DATA.mergedPRsFallback;
+  const summary = DATA.summary.replace("{{mergedPRs}}", String(mergedCount));
+
   return (
     <main className="portfolio-blackbook min-h-dvh flex flex-col gap-20 pb-8 sm:gap-28">
       <section id="hero" className="min-h-[calc(100dvh-11rem)] flex items-center">
@@ -89,7 +94,7 @@ export default async function Page() {
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
             <div className="prose max-w-2xl text-pretty font-sans text-sm leading-7 text-muted-foreground dark:prose-invert sm:text-base">
               <Markdown>
-                {DATA.summary}
+                {summary}
               </Markdown>
             </div>
           </BlurFade>

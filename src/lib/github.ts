@@ -58,18 +58,24 @@ function githubHeaders(): HeadersInit {
 }
 
 // Pull requests to other people's repositories (own repos are excluded).
+// The search API returns at most 100 per page, so every page is read (up to its limit of 1000).
 async function searchPRs(state: "is:merged" | "is:open"): Promise<SearchItem[] | null> {
   const query = `author:${USERNAME} is:pr ${state} -user:${USERNAME}`;
+  const items: SearchItem[] = [];
   try {
-    const res = await fetch(
-      `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&sort=created&order=desc&per_page=100`,
-      { headers: githubHeaders(), next: { revalidate: REVALIDATE_SECONDS } }
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.items;
+    for (let page = 1; page <= 10; page++) {
+      const res = await fetch(
+        `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&sort=created&order=desc&per_page=100&page=${page}`,
+        { headers: githubHeaders(), next: { revalidate: REVALIDATE_SECONDS } }
+      );
+      if (!res.ok) return page === 1 ? null : items;
+      const data = await res.json();
+      items.push(...data.items);
+      if (data.items.length < 100) break;
+    }
+    return items;
   } catch {
-    return null;
+    return items.length ? items : null;
   }
 }
 
