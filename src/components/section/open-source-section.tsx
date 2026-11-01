@@ -2,6 +2,7 @@ import { DATA } from "@/data/resume";
 import { countByRepo, type MergedPR } from "@/lib/github";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { SummaryText } from "@/components/summary-text";
 
 export default function OpenSourceSection({ prs }: { prs: MergedPR[] | null }) {
     return (
@@ -20,7 +21,7 @@ export default function OpenSourceSection({ prs }: { prs: MergedPR[] | null }) {
                                     </span>
                                 )}
                             </div>
-                            <p className="text-sm text-muted-foreground">{project.summary}</p>
+                            <SummaryText text={project.summary} className="text-sm text-muted-foreground" />
                         </li>
                     );
                 })}

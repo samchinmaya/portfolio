@@ -145,7 +145,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/selfservice-plugin/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Fineract plugin behind the Mifos X mobile and online banking apps. Added self-service endpoints for loan guarantors, stopped a customer from moving a savings application to another client or a group, kept a beneficiary's transfer limit when it is renamed, and fixed external beneficiaries that lost their IBAN or phone number or were saved where the customer could never see them. The maintainers have deployed these changes behind the live Mifos online banking app at online-banking.mifos.community.",
+        "Fineract plugin behind the Mifos X mobile and online banking apps. Added self-service endpoints for loan guarantors, stopped a customer from moving a savings application to another client or a group, kept a beneficiary's transfer limit when it is renamed, and fixed external beneficiaries that lost their IBAN or phone number or were saved where the customer could never see them. The maintainers have deployed these changes behind the live [Mifos online banking](https://online-banking.mifos.community) app.",
       technologies: ["Java", "Spring Boot", "Fineract"],
     },
     {

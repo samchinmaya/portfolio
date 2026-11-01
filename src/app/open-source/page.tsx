@@ -5,6 +5,7 @@ import { getPRDetails, type PRDetail } from "@/lib/github";
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SummaryText } from "@/components/summary-text";
 
 export const metadata: Metadata = {
   title: "Open Source",
@@ -115,7 +116,7 @@ export default async function OpenSourcePage() {
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold tracking-tight">{project.title}</h3>
-                    {project.summary && <p className="max-w-2xl text-sm text-muted-foreground">{project.summary}</p>}
+                    {project.summary && <SummaryText text={project.summary} className="max-w-2xl text-sm text-muted-foreground" />}
                   </div>
                   <Link
                     href={project.href}
