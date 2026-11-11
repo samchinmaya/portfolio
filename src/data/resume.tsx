@@ -57,7 +57,7 @@ export const DATA = {
   summary:
     "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had {{mergedPRs}} pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   // Used in the summary when GitHub can't be reached; normally the live count replaces it.
-  mergedPRsFallback: 86,
+  mergedPRsFallback: 96,
   avatarUrl: "/me.webp",
   skills,
   navbar: [
@@ -120,7 +120,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/web-app/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, fixed deposits activating without debiting the linked savings account, group loan (GLIM) and group savings (GSIM) applications creating broken or duplicate accounts, standing instructions that could not be deleted, savings charges that could not be paid, loan charge-offs and recurring deposit premature closures that always failed, forms starting on the computer date instead of the business date, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
+        "Angular front end of Mifos X, an open-source core banking platform for microfinance. Fixed repayments not being recorded from the collection sheet, fixed deposits activating without debiting the linked savings account, group loan (GLIM) and group savings (GSIM) applications creating broken or duplicate accounts, loan product edits that silently changed how installments are rounded, standing instructions that could not be deleted, savings charges that could not be paid, loan charge-offs and recurring deposit premature closures that always failed, forms starting on the computer date instead of the business date, charges deleted when editing a savings application, duplicate loans and savings accounts on double-click, and dates breaking in Safari.",
       technologies: ["Angular", "TypeScript", "RxJS"],
     },
     {
@@ -138,7 +138,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/mcp-mifosx-self-service/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Model Context Protocol server that lets an AI assistant act for a Mifos X self-service customer. Kept the login inside the server instead of passing passwords through tools, made transfers a two-step prepare-and-confirm, and added tools for transfer fees and quotes, loan simulation, share accounts, branch locations and product details.",
+        "Model Context Protocol server that lets an AI assistant act for a Mifos X self-service customer. Kept the login inside the server instead of passing passwords through tools, made transfers a two-step prepare-and-confirm, checked loan and savings applications against the bank's template with a confirmation step before submitting, added beneficiaries and loan guarantors with typed fields, returned readable bank errors instead of raw responses, and added tools for transfer fees and quotes, loan simulation, share accounts, security activity, branch locations and product details.",
       technologies: ["Python", "MCP", "Pytest"],
     },
     {
