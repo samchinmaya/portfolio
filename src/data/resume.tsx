@@ -200,14 +200,13 @@ export const DATA = {
       dates: "In progress · Oct 2026",
       active: true,
       description:
-        "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users connect nodes like HTTP Request or Telegram on a canvas and run them by click, webhook or cron schedule.\n\n" +
-        "- **Done:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), ArkType validation, and a workflow engine that finds the trigger, follows the edges and passes each node's output to the next (Manual Trigger, HTTP Request and Set nodes)\n" +
-        "- **Done:** Elysia REST API with Swagger docs to create, list, get and update workflows, plus a run endpoint that executes the workflow and saves each execution as running, then completed with its output or failed with the error\n" +
-        "- **Done:** webhook trigger: a POST to an active workflow's webhook URL runs it with the request body as input, and execution history endpoints list past runs\n" +
-        "- **Done:** cron trigger: schedule workflows to run automatically, with a dedicated schedule node and execution manager\n" +
-        "- **In progress:** better-auth login: sign-up, login and cookie sessions work, with an Elysia plugin that adds an `auth` option to routes; next is making each user see only their own workflows and executions\n" +
-        "- **Next:** encrypted credentials, React Flow editor\n" +
-        "- **Deploy:** Docker on AWS EC2 with Caddy and GitHub Actions CI/CD",
+        "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users chain nodes like HTTP Request and Set into a workflow and run it by hand, from a webhook or on a cron schedule. The backend API is nearly done; the visual editor is next.\n\n" +
+        "- **Engine:** PostgreSQL schema with Drizzle ORM (users, workflows, credentials, executions), ArkType types, and a runner that finds the trigger, follows the edges and passes each node's output to the next (Manual Trigger, Schedule Trigger, HTTP Request and Set nodes). It stops a run if the workflow loops back on itself\n" +
+        "- **API:** Elysia REST API with Swagger docs to create, list, get, update and run workflows. Every run is saved as an execution: running, then completed with its output or failed with the error\n" +
+        "- **Triggers:** a POST to an active workflow's webhook URL runs it with the request body as input, and cron schedules run workflows automatically\n" +
+        "- **Auth:** better-auth email/password sign-up, login and cookie sessions, with an Elysia plugin that protects routes; every workflow and execution route only returns the logged-in user's own data\n" +
+        "- **Hardening:** a global error handler gives every error the same JSON shape and hides internal errors, and new workflows are checked before saving (known node types, exactly one trigger, valid cron, valid edges)\n" +
+        "- **Next:** validation on updates, React Flow editor, encrypted credentials, deploy with Docker on AWS EC2, Caddy and GitHub Actions",
       technologies: [
         "TypeScript",
         "Bun",
@@ -217,7 +216,6 @@ export const DATA = {
         "ArkType",
         "better-auth",
         "Swagger",
-        "AWS",
       ],
       links: [
         {
