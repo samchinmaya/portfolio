@@ -162,6 +162,39 @@ export const DATA = {
   ],
   projects: [
     {
+      title: "комп (komp)",
+      href: "https://samchinmaya.github.io/komp",
+      dates: "Nov 2026",
+      active: true,
+      description:
+        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~300 tokens instead of ~76,000 and the raw logs never enter the conversation.\n\n" +
+        "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, turns variable parts (IDs, IPs, durations) into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
+        "- **Keeps what matters:** errors keep their values and stack traces (framework frames folded), exceptions join the error line they belong to, and values bunched in time, like 503s during an outage, get their own line\n" +
+        "- **MCP server:** JSON-RPC 2.0 over stdio written by hand, with tools that read logs from the clipboard, a file or `kubectl logs`\n" +
+        "- **Results:** over 99% fewer tokens on each of the four test logs (Go, Spring Boot, Node.js, kubelet)\n" +
+        "- **Shipping:** 22 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
+      technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions"],
+      links: [
+        {
+          type: "Website",
+          href: "https://samchinmaya.github.io/komp",
+          icon: <Icons.globe className="size-3" />,
+        },
+        {
+          type: "Source",
+          href: "https://github.com/samchinmaya/komp",
+          icon: <Icons.github className="size-3" />,
+        },
+        {
+          type: "Download",
+          href: "https://github.com/samchinmaya/komp/releases/latest",
+          icon: <Icons.globe className="size-3" />,
+        },
+      ],
+      image: "",
+      video: "",
+    },
+    {
       title: "n8n Clone",
       href: "https://github.com/samchinmaya/n8n",
       dates: "In progress · Oct 2026",
