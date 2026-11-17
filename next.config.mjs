@@ -3,6 +3,13 @@ import { withContentCollections } from "@content-collections/next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // комп's static site lives in public/komp; serve its page at /komp and /komp/
+  async rewrites() {
+    return [
+      { source: "/komp", destination: "/komp/index.html" },
+      { source: "/komp/", destination: "/komp/index.html" },
+    ];
+  },
   async headers() {
     return [
       {

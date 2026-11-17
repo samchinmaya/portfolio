@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>комп · log compression for Claude</title>
+<meta name="description" content="комп compresses Kubernetes and app logs into a few meaningful lines, so Claude reads ~300 tokens instead of ~76,000. Runs on your machine; your logs never leave it.">
+<meta name="theme-color" content="#0F1419">
+<link rel="icon" href="/komp/favicon.ico" sizes="any">
+<link rel="icon" href="/komp/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/komp/apple-touch-icon.png">
+<link rel="manifest" href="/komp/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:title" content="комп · log compression for Claude">
+<meta property="og:description" content="2,001 lines of logs → 11 lines. Claude reads ~300 tokens instead of ~76,000. Local, open source, MIT.">
+<meta property="og:url" content="https://samchinmaya.vercel.app/komp">
+<meta property="og:image" content="https://samchinmaya.vercel.app/komp/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="комп · log compression for Claude">
+<meta name="twitter:description" content="2,001 lines of logs → 11 lines. Claude reads ~300 tokens instead of ~76,000.">
+<meta name="twitter:image" content="https://samchinmaya.vercel.app/komp/og.png">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0F1419;
+    --surface: #151B22;
+    --surface-2: #1B232C;
+    --line: #26303B;
+    --paper: #E8ECF1;
+    --muted: #8B96A5;
+    --faint: #5C6776;
+    --signal: #3EE08F;
+    --signal-dim: rgba(62, 224, 143, .12);
+    --err: #FF6B6B;
+    --warn: #F5B83D;
+    --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--ink); color: var(--paper); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; }
+  code, pre, kbd { font-family: var(--mono); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .wordmark { display: block; height: auto; }
+  .wordmark g { stroke: currentColor; }
+
+  /* nav */
+  header.nav { position: sticky; top: 0; z-index: 10; background: rgba(15, 20, 25, .85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+  .nav .brand { color: var(--paper); text-decoration: none; display: flex; }
+  .nav nav { display: flex; gap: 24px; align-items: center; font-size: 14px; }
+  .nav nav a { color: var(--muted); text-decoration: none; }
+  .nav nav a:hover { color: var(--paper); }
+  .nav nav a.gh { color: var(--paper); border: 1px solid var(--line); padding: 6px 12px; border-radius: 8px; }
+  .nav nav a.gh:hover { border-color: var(--muted); }
+
+  /* hero */
+  .hero { padding: 96px 0 56px; text-align: center; }
+  .eyebrow { display: inline-flex; gap: 8px; align-items: center; font: 13px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; margin-bottom: 28px; }
+  .eyebrow b { color: var(--signal); font-weight: 500; }
+  h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.02; letter-spacing: -.035em; margin: 0 0 24px; font-weight: 700; }
+  h1 .dim { color: var(--faint); }
+  .lead { max-width: 660px; margin: 0 auto 36px; color: var(--muted); font-size: clamp(17px, 2.2vw, 20px); }
+  .lead strong { color: var(--paper); font-weight: 600; }
+  .cmd { display: flex; align-items: center; gap: 12px; max-width: 760px; margin: 0 auto 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 10px 10px 18px; text-align: left; }
+  .cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: 14px; scrollbar-width: none; }
+  .cmd code::-webkit-scrollbar { display: none; }
+  .cmd code .p { color: var(--faint); user-select: none; }
+  .copy { flex: none; font: 13px var(--sans); color: var(--paper); background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+  .copy:hover { border-color: var(--muted); }
+  .copy.done { color: var(--signal); border-color: var(--signal); }
+  .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 15px; padding: 11px 20px; border-radius: 10px; border: 1px solid var(--line); }
+  .btn.primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .btn.primary:hover { background: #fff; }
+  .btn:not(.primary):hover { border-color: var(--muted); }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius); margin: 56px 0 0; overflow: hidden; }
+  .stat { padding: 22px 20px; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: 0; }
+  .stat .n { font: 600 clamp(22px, 3vw, 30px)/1.1 var(--mono); letter-spacing: -.02em; }
+  .stat .n .to { color: var(--faint); font-weight: 400; }
+  .stat .n .good { color: var(--signal); }
+  .stat .l { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .note { color: var(--faint); font-size: 13px; margin-top: 12px; text-align: center; }
+
+  /* sections */
+  section { padding: 88px 0 0; }
+  .kicker { font: 13px var(--mono); color: var(--signal); margin-bottom: 10px; }
+  h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -.025em; margin: 0 0 14px; }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 0 36px; font-size: 17px; }
+
+  /* demo */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tab { font: 14px var(--sans); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+  .tab:hover { color: var(--paper); }
+  .tab[aria-selected="true"] { color: var(--ink); background: var(--paper); border-color: var(--paper); }
+  .about { color: var(--muted); font-size: 15px; margin: 0 0 16px; min-height: 1.6em; }
+  .panes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pane { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+  .pane.after { border-color: rgba(62, 224, 143, .35); }
+  .pane-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .pane-head .t { font-weight: 600; }
+  .pane-head .m { font-family: var(--mono); color: var(--muted); text-align: right; }
+  .pane.after .pane-head .m { color: var(--signal); }
+  .pane pre { margin: 0; padding: 14px 16px; font-size: 12px; line-height: 1.6; height: 440px; overflow: auto; }
+  .pane.before pre { white-space: pre; color: var(--muted); }
+  .pane.after pre { white-space: pre-wrap; word-break: break-word; color: var(--paper); }
+  .more { display: block; color: var(--faint); font-style: italic; margin-top: 6px; }
+  .hl-hdr { color: var(--signal); }
+  .hl-time { color: var(--faint); }
+  .hl-err { color: var(--err); font-weight: 600; }
+  .hl-warn { color: var(--warn); font-weight: 600; }
+  .hl-info { color: var(--muted); }
+  .hl-n { color: var(--signal); font-weight: 600; }
+  .hl-slot { color: #9FD8FF; }
+  .hl-trace { color: var(--faint); }
+  .saving { margin-top: 16px; display: flex; align-items: center; gap: 14px; font: 14px var(--mono); color: var(--muted); }
+  .bar { flex: 1; height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; position: relative; }
+  .bar i { position: absolute; inset: 0 auto 0 0; background: var(--signal); border-radius: 99px; min-width: 3px; transition: width .4s ease; }
+  .saving b { color: var(--signal); font-weight: 600; }
+
+  /* how */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: s; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; min-width: 0; }
+  .step::before { counter-increment: s; content: counter(s); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--signal-dim); color: var(--signal); font: 600 14px var(--mono); margin-bottom: 16px; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -.01em; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .card code { font-size: 13px; color: var(--paper); background: var(--surface-2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .compare .card { display: flex; gap: 16px; align-items: center; }
+  .compare .big { font: 700 clamp(26px, 3.5vw, 36px)/1 var(--mono); letter-spacing: -.03em; flex: none; }
+  .compare .bad .big { color: var(--err); }
+  .compare .ok .big { color: var(--signal); }
+
+  /* features */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature pre { margin: 14px 0 0; font-size: 12px; color: var(--muted); background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; white-space: pre-wrap; word-break: break-word; }
+  .feature pre em { font-style: normal; color: var(--signal); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .chip { font: 13px var(--mono); color: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; background: var(--surface); }
+
+  /* tools table */
+  .table { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .row { display: grid; grid-template-columns: 220px 1fr 1.2fr; gap: 16px; padding: 16px 20px; border-top: 1px solid var(--line); font-size: 15px; align-items: start; }
+  .row:first-child { border-top: 0; background: var(--surface); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--faint); }
+  .row code { font-size: 13px; }
+  .row .name { color: var(--signal); }
+  .row .args { color: var(--muted); font-family: var(--mono); font-size: 13px; }
+  .row .src { color: var(--muted); }
+
+  /* install */
+  .install { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .install .card h3 { display: flex; align-items: center; gap: 10px; }
+  .install .card h3 span { font: 600 12px var(--mono); color: var(--signal); background: var(--signal-dim); border-radius: 6px; padding: 2px 8px; }
+  .code { position: relative; margin-top: 14px; }
+  .code pre { margin: 0; background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; padding-right: 76px; font-size: 13px; overflow-x: auto; white-space: pre; }
+  .code .copy { position: absolute; top: 7px; right: 7px; padding: 5px 10px; font-size: 12px; }
+  .itabs { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .itab { font: 13px var(--sans); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+  .itab[aria-selected="true"] { color: var(--paper); border-color: var(--muted); background: var(--surface-2); }
+  .ipanel[hidden] { display: none; }
+  .ipanel p { margin: 12px 0 0; }
+
+  /* faq */
+  .faq { max-width: 780px; }
+  details { border-top: 1px solid var(--line); padding: 18px 0; }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 600; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--faint); font: 400 22px/1 var(--mono); }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); margin: 10px 0 0; }
+  details code { font-size: 14px; color: var(--paper); }
+
+  /* cta + footer */
+  .final { text-align: center; padding: 104px 0 96px; }
+  .final .wordmark { width: 180px; margin: 0 auto 28px; color: var(--paper); }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--faint); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--paper); }
+  footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .panes, .steps, .compare, .install { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .pane pre { height: 340px; }
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .row:first-child { display: none; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px; }
+    .nav nav a:not(.gh) { display: none; }
+    .eyebrow .x { display: none; }
+    .code pre { white-space: pre-wrap; word-break: break-all; }
+    .hero { padding: 64px 0 40px; }
+    .grid { grid-template-columns: 1fr; }
+    .stat { padding: 18px 16px; }
+    section { padding-top: 72px; }
+    .compare .card { flex-direction: column; align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .bar i { transition: none; } }
+  /* sign-up (Wix Forms) */
+  .signup { max-width: 640px; }
+  .signup form { display: grid; gap: 18px; }
+  .f-field { display: grid; gap: 6px; }
+  .f-field > label { font-size: 14px; font-weight: 600; }
+  .req { color: var(--signal); font-weight: 600; }
+  .f-input { width: 100%; font: 15px var(--sans); color: var(--paper); background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .f-input::placeholder { color: var(--faint); }
+  .f-input:focus { outline: none; border-color: var(--signal); }
+  .f-input[aria-invalid="true"] { border-color: var(--err); }
+  select.f-input { cursor: pointer; }
+  .f-other { margin-top: 8px; }
+  .f-check { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; cursor: pointer; }
+  .f-check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--signal); flex: none; }
+  .f-check input[aria-invalid="true"] { outline: 2px solid var(--err); outline-offset: 2px; }
+  .f-help { margin: 0; color: var(--muted); font-size: 13px; }
+  .f-err { margin: 0; color: var(--err); font-size: 13px; }
+  .f-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .f-submit { font: 600 15px var(--sans); color: var(--ink); background: var(--signal); border: 0; border-radius: 10px; padding: 11px 22px; cursor: pointer; }
+  .f-submit:hover { filter: brightness(1.08); }
+  .f-submit[disabled] { opacity: .6; cursor: progress; }
+  .f-back { font: 14px var(--sans); color: var(--muted); background: none; border: 0; cursor: pointer; padding: 0; }
+  .f-note { color: var(--faint); font-size: 13px; margin: 0; }
+  .f-thanks p { margin: 0; font-size: 17px; color: var(--signal); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="комп home">
+      <svg class="wordmark" viewBox="82 12 138 40" width="78" aria-hidden="true"><g fill="none" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"><path d="M88 18V46M90 32L104 18M90 32L105 46"/><ellipse cx="132" cy="32" rx="13" ry="14"/><path d="M158 46V18L169 38L180 18V46"/><path d="M194 46V18H214V46"/></g></svg>
+    </a>
+    <nav aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="#install">Install</a>
+      <a href="#updates">Updates</a>
+      <a class="gh" href="https://github.com/samchinmaya/komp">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+
+    <div class="hero">
+      <div class="eyebrow"><span><b>v0.1.0</b> · open source<span class="x"> · MCP server for Claude Code</span></span></div>
+      <h1>Logs in.<br><span class="dim">Signal out.</span></h1>
+      <p class="lead">комп turns thousands of Kubernetes and app log lines into a handful of meaningful ones. Claude reads <strong>~300 tokens instead of ~76,000</strong>, and your logs <strong>never leave your machine</strong>.</p>
+      <div class="cmd">
+        <code id="oneliner"><span class="p">$ </span>curl -fsSL https://raw.githubusercontent.com/samchinmaya/komp/master/install.sh | sh</code>
+        <button class="copy" type="button" data-copy="curl -fsSL https://raw.githubusercontent.com/samchinmaya/komp/master/install.sh | sh">Copy</button>
+      </div>
+      <div class="ctas">
+        <a class="btn primary" href="https://github.com/samchinmaya/komp">View on GitHub</a>
+        <a class="btn" href="https://github.com/samchinmaya/komp/releases/latest">Download v0.1.0</a>
+      </div>
+
+      <div class="stats" aria-label="Results on the repo's test logs">
+        <div class="stat"><div class="n">2,001<span class="to"> → </span><span class="good">11</span></div><div class="l">lines, Go outage log</div></div>
+        <div class="stat"><div class="n good">99%+</div><div class="l">fewer tokens on every test log</div></div>
+        <div class="stat"><div class="n">5</div><div class="l">platforms: macOS, Linux, Windows</div></div>
+        <div class="stat"><div class="n">0<span class="to"> bytes</span></div><div class="l">sent over the network</div></div>
+      </div>
+      <p class="note">Numbers come from the four test logs in the repo. Token counts are estimates (~4 characters per token).</p>
+    </div>
+
+    <section id="demo">
+      <div class="kicker">// demo</div>
+      <h2>Same logs. A fraction of the tokens.</h2>
+      <p class="sub">Real komp output on the test logs in the repo. Left: what you'd paste into the chat. Right: what Claude reads instead.</p>
+      <div class="tabs" role="tablist" aria-label="Example logs" id="tabs"></div>
+      <p class="about" id="about"></p>
+      <div class="panes">
+        <div class="pane before">
+          <div class="pane-head"><span class="t">Raw logs</span><span class="m" id="before-meta"></span></div>
+          <pre id="before" tabindex="0"></pre>
+        </div>
+        <div class="pane after">
+          <div class="pane-head"><span class="t">After комп</span><span class="m" id="after-meta"></span></div>
+          <pre id="after" tabindex="0"></pre>
+        </div>
+      </div>
+      <div class="saving"><span id="saving-text"></span><div class="bar" aria-hidden="true"><i id="saving-bar"></i></div></div>
+    </section>
+
+    <section id="how">
+      <div class="kicker">// how it works</div>
+      <h2>Pasting logs costs you before any tool can help.</h2>
+      <p class="sub">Claude reads everything you send it. So комп never takes logs through the chat: it reads them itself, on your laptop, and hands Claude only the summary.</p>
+      <div class="steps">
+        <div class="card step"><h3>Copy the logs</h3><p>From <code>kubectl</code>, Docker, Grafana, CI output, anywhere. Just <code>Cmd+C</code>.</p></div>
+        <div class="card step"><h3>Ask Claude</h3><p>“What's wrong in the logs I copied?” No pasting, so no thousands of tokens up front.</p></div>
+        <div class="card step"><h3>Claude reads the summary</h3><p>Claude calls <code>compress_clipboard</code>. комп reads your clipboard locally and returns a few hundred tokens.</p></div>
+      </div>
+      <div class="compare">
+        <div class="card bad"><div class="big">~76,000</div><p>tokens to paste the 2,001-line Go outage log into the chat. Your context fills up and long sessions hit limits sooner.</p></div>
+        <div class="card ok"><div class="big">~312</div><p>tokens for the комп summary of the same log. Claude still found the outage, the retries and the 503s.</p></div>
+      </div>
+    </section>
+
+    <section id="keeps">
+      <div class="kicker">// what it keeps</div>
+      <h2>Shorter, without losing the plot.</h2>
+      <p class="sub">комп is lossy on purpose: it drops repetition, not meaning. These rules decide what stays.</p>
+      <div class="grid">
+        <div class="card feature"><h3>Errors keep their details</h3><p>Warnings and errors list their actual values and keep their stack traces.</p><pre>ERROR query failed err="dial tcp <em>10.0.3.17:5432</em>: connection refused" <em>×200</em></pre></div>
+        <div class="card feature"><h3>Bursts get their own line</h3><p>A value seen only during one stretch is split out with its own time range.</p><pre><em>10:04:06–10:06:49</em> GET /api/orders/… status=<em>503</em> ×100</pre></div>
+        <div class="card feature"><h3>Stack traces, folded</h3><p>Printed once per group. Runs of framework frames collapse into one line.</p><pre>at ShippingService.quote(ShippingService.java:57)
+<em>… 12 framework frames</em></pre></div>
+        <div class="card feature"><h3>Order survives</h3><p>Every entry carries its first and last timestamp, so cause and effect stay visible.</p><pre><em>10:00:01–10:00:07</em> INFO GET /health 200 <em>1–3ms</em> ×4</pre></div>
+        <div class="card feature"><h3>Shared fields, said once</h3><p>A pod name or <code>service=orders</code> on every line moves into the header.</p><pre>[komp] 2001 lines → 9 entries · <em>service=orders</em></pre></div>
+        <div class="card feature"><h3>Nothing silently dropped</h3><p>If there are too many patterns, the rarest low-severity ones go, and the output says so.</p><pre><em>… 120 rarer low-severity patterns omitted (450 lines)</em></pre></div>
+      </div>
+      <div class="chips" aria-label="Supported log formats">
+        <span class="chip">plain text</span><span class="chip">JSON · pino</span><span class="chip">logfmt</span><span class="chip">klog · kubelet</span><span class="chip">syslog</span><span class="chip">Spring Boot</span><span class="chip">Java stack traces</span><span class="chip">Python tracebacks</span><span class="chip">kubectl --timestamps</span>
+      </div>
+    </section>
+
+    <section id="tools">
+      <div class="kicker">// mcp tools</div>
+      <h2>Three tools Claude can call.</h2>
+      <p class="sub">комп speaks the Model Context Protocol over stdio. Claude Code starts it in the background; it needs no network and no account.</p>
+      <div class="table">
+        <div class="row"><div>Tool</div><div>Arguments</div><div>Reads logs from</div></div>
+        <div class="row"><code class="name">compress_clipboard</code><div class="args">max_entries?</div><div class="src">whatever you copied</div></div>
+        <div class="row"><code class="name">compress_file</code><div class="args">path, max_entries?</div><div class="src">a log file on your machine</div></div>
+        <div class="row"><code class="name">compress_kubectl_logs</code><div class="args">pod, namespace?, container?, since?, tail?, previous?</div><div class="src"><code>kubectl logs --timestamps</code> with your current kube context</div></div>
+      </div>
+    </section>
+
+    <section id="install">
+      <div class="kicker">// install</div>
+      <h2>Two commands.</h2>
+      <p class="sub">Install the binary, then connect it to Claude Code. It also works as a plain terminal command.</p>
+      <div class="install">
+        <div class="card">
+          <h3><span>1</span> Install комп</h3>
+          <div class="itabs" role="tablist" aria-label="Install method">
+            <button class="itab" role="tab" aria-selected="true" data-panel="i-unix" type="button">macOS / Linux</button>
+            <button class="itab" role="tab" aria-selected="false" data-panel="i-win" type="button">Windows</button>
+            <button class="itab" role="tab" aria-selected="false" data-panel="i-cargo" type="button">From source</button>
+          </div>
+          <div class="ipanel" id="i-unix" role="tabpanel">
+            <div class="code"><pre>curl -fsSL https://raw.githubusercontent.com/samchinmaya/komp/master/install.sh | sh</pre><button class="copy" type="button">Copy</button></div>
+            <p class="sub" style="margin:12px 0 0;font-size:14px">Downloads the right binary, checks its SHA-256 and installs to <code>~/.local/bin</code>.</p>
+          </div>
+          <div class="ipanel" id="i-win" role="tabpanel" hidden>
+            <p class="sub" style="margin:14px 0 0;font-size:15px">Download <code>komp-x86_64-pc-windows-msvc.zip</code> from the <a href="https://github.com/samchinmaya/komp/releases/latest">latest release</a> and put <code>komp.exe</code> on your <code>PATH</code>.</p>
+          </div>
+          <div class="ipanel" id="i-cargo" role="tabpanel" hidden>
+            <div class="code"><pre>cargo install --git https://github.com/samchinmaya/komp</pre><button class="copy" type="button">Copy</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3><span>2</span> Connect to Claude Code</h3>
+          <div class="code"><pre>claude mcp add --scope user komp -- komp serve</pre><button class="copy" type="button">Copy</button></div>
+          <p class="sub" style="margin:12px 0 0;font-size:14px">For a whole team, commit this as <code>.mcp.json</code> in your repo:</p>
+          <div class="code"><pre>{ "mcpServers": { "komp": { "command": "komp", "args": ["serve"] } } }</pre><button class="copy" type="button">Copy</button></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3>Use it from the terminal too</h3>
+        <div class="code"><pre>komp                       # compress the clipboard
+komp app.log               # compress a file
+kubectl logs api | komp -  # compress stdin</pre><button class="copy" type="button">Copy</button></div>
+      </div>
+    </section>
+
+    <section id="updates">
+      <div class="kicker">// release updates</div>
+      <h2>Get an email when комп ships something new.</h2>
+      <p class="sub">One short email per release: what changed and how much smaller your logs get. Nothing else, and you can unsubscribe any time.</p>
+      <div class="card signup"><form id="signup-form" novalidate aria-label="Release updates sign-up"></form></div>
+    </section>
+
+    <section id="faq">
+      <div class="kicker">// faq</div>
+      <h2>Questions.</h2>
+      <div class="faq">
+        <details><summary>Does комп send my logs anywhere?</summary><p>No. It's a local program. It reads your clipboard, a file or <code>kubectl</code> on your machine and returns text to Claude Code over stdin/stdout. It makes no network requests.</p></details>
+        <details><summary>Why not just paste the logs into Claude?</summary><p>Everything you paste is read, and billed, in full before any tool runs. A 2,000-line log is tens of thousands of tokens. With комп the raw logs never enter the conversation; only the summary does.</p></details>
+        <details><summary>Doesn't compression lose information?</summary><p>It removes repetition, not meaning. Identical lines merge with a count, varying values become ranges or short lists, and errors and warnings keep their values and stack traces. When something is dropped for space, the output says how much.</p></details>
+        <details><summary>Does it work without Claude?</summary><p>Yes. <code>komp</code> is a normal command-line tool: run it on a file, on stdin or on your clipboard and read the summary yourself.</p></details>
+        <details><summary>Which log formats does it understand?</summary><p>Plain text with timestamps and levels, JSON lines (including pino's numeric levels), logfmt, klog (kubelet, apiserver), syslog, Spring Boot, Java stack traces and Python tracebacks. Unknown formats still get deduplicated and templated.</p></details>
+        <details><summary>Is it free?</summary><p>Yes, MIT licensed and open source on <a href="https://github.com/samchinmaya/komp">GitHub</a>.</p></details>
+      </div>
+    </section>
+
+    <div class="final">
+      <svg class="wordmark" viewBox="82 12 138 40" aria-hidden="true"><g fill="none" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"><path d="M88 18V46M90 32L104 18M90 32L105 46"/><ellipse cx="132" cy="32" rx="13" ry="14"/><path d="M158 46V18L169 38L180 18V46"/><path d="M194 46V18H214V46"/></g></svg>
+      <h2>Stop paying to read the same line 400 times.</h2>
+      <p class="sub" style="margin:0 auto 32px">Install комп, copy your logs, and ask Claude what's wrong.</p>
+      <div class="cmd">
+        <code><span class="p">$ </span>curl -fsSL https://raw.githubusercontent.com/samchinmaya/komp/master/install.sh | sh</code>
+        <button class="copy" type="button" data-copy="curl -fsSL https://raw.githubusercontent.com/samchinmaya/komp/master/install.sh | sh">Copy</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>комп · MIT licensed · by <a href="https://github.com/samchinmaya">samchinmaya</a></span>
+    <nav aria-label="Footer">
+      <a href="https://github.com/samchinmaya/komp">GitHub</a>
+      <a href="https://github.com/samchinmaya/komp/releases/latest">Releases</a>
+      <a href="https://github.com/samchinmaya/komp/blob/master/README.md">Docs</a>
+      <a href="https://github.com/samchinmaya/komp/issues">Issues</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="/komp/demo-data.js"></script>
+<script>
+(function () {
+  // ---- copy buttons ----
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.dataset.copy || btn.parentElement.querySelector("pre").textContent;
+      var done = function () {
+        btn.textContent = "Copied";
+        btn.classList.add("done");
+        setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      }
+    });
+  });
+
+  // ---- install tabs ----
+  var itabs = document.querySelectorAll(".itab");
+  itabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      itabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", on);
+        document.getElementById(t.dataset.panel).hidden = !on;
+      });
+    });
+  });
+
+  // ---- demo ----
+  var demos = window.KOMP_DEMOS || [];
+  if (!demos.length) return;
+  var fmt = function (n) { return n.toLocaleString("en-US"); };
+  var esc = function (s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); };
+
+  function highlight(text) {
+    return text.split("\n").map(function (line) {
+      var l = esc(line);
+      if (/^\[komp\]|^levels:/.test(line)) return '<span class="hl-hdr">' + l + "</span>";
+      if (/^ {4}/.test(line)) return '<span class="hl-trace">' + l + "</span>";
+      l = l.replace(/^(\d{2}(?:-\d{2})?[: ]\d{2}[:]\d{2}(?::\d{2})?(?:–[\d:\- ]+)?)/, '<span class="hl-time">$1</span>');
+      l = l.replace(/\b(ERROR|FATAL)\b/, '<span class="hl-err">$1</span>');
+      l = l.replace(/\bWARN\b/, '<span class="hl-warn">WARN</span>');
+      l = l.replace(/\b(INFO|DEBUG)\b/, '<span class="hl-info">$1</span>');
+      l = l.replace(/\{[^{}]*\}/g, function (m) { return '<span class="hl-slot">' + m + "</span>"; });
+      l = l.replace(/ ×(\d+)$/, ' <span class="hl-n">×$1</span>');
+      return l;
+    }).join("\n");
+  }
+
+  var tabs = document.getElementById("tabs");
+  function show(i) {
+    var d = demos[i];
+    Array.prototype.forEach.call(tabs.children, function (t, j) {
+      t.setAttribute("aria-selected", j === i);
+      t.tabIndex = j === i ? 0 : -1;
+    });
+    document.getElementById("about").textContent = d.about;
+    var preview = d.rawPreview.split("\n").length;
+    document.getElementById("before").innerHTML = esc(d.rawPreview) +
+      '<span class="more">… ' + fmt(d.rawLines - preview) + " more lines</span>";
+    document.getElementById("before-meta").textContent = fmt(d.rawLines) + " lines · ~" + fmt(d.rawTokens) + " tokens";
+    document.getElementById("after").innerHTML = highlight(d.output);
+    document.getElementById("after-meta").textContent = d.outLines + " lines · ~" + fmt(d.outTokens) + " tokens";
+    var pct = (100 * (1 - d.outTokens / d.rawTokens)).toFixed(1);
+    document.getElementById("saving-text").innerHTML = "<b>" + pct + "%</b> fewer tokens";
+    document.getElementById("saving-bar").style.width = Math.max(0.6, 100 * d.outTokens / d.rawTokens) + "%";
+    document.getElementById("before").scrollTop = 0;
+    document.getElementById("after").scrollTop = 0;
+  }
+  demos.forEach(function (d, i) {
+    var b = document.createElement("button");
+    b.className = "tab"; b.type = "button"; b.setAttribute("role", "tab");
+    b.textContent = d.label;
+    b.addEventListener("click", function () { show(i); });
+    b.addEventListener("keydown", function (e) {
+      var k = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!k) return;
+      var n = (i + k + demos.length) % demos.length;
+      show(n); tabs.children[n].focus();
+    });
+    tabs.appendChild(b);
+  });
+  show(0);
+})();
+</script>
+<script type="module" src="/komp/signup.js"></script>
+</body>
+</html>
