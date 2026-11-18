@@ -167,15 +167,17 @@ export const DATA = {
       dates: "Nov 2026",
       active: true,
       description:
-        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~312 tokens instead of ~75,958 and the raw logs never enter the conversation. It checks logs for secrets locally first, and I tested it in a real Claude Code session with its networking blocked.\n\n" +
-        "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, turns variable parts (IDs, IPs, durations) into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
+        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~344 tokens instead of ~75,958 and the raw logs never enter the conversation. Version 0.2.0 groups logs with Drain-style template mining and compresses that log in 27 ms with 15.8 MB of peak memory on an Apple M5 Mac. Across four test logs it kept all 14 facts I checked in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259. It also checks logs for secrets locally, and I tested it in a real Claude Code session with its networking blocked.\n\n" +
+        "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, mines templates with a Drain-style parse tree, turns differing tokens into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
         "- **Keeps what matters:** errors keep their values and stack traces (framework frames folded), exceptions join the error line they belong to, and values bunched in time, like 503s during an outage, get their own line\n" +
         "- **MCP server:** JSON-RPC 2.0 over stdio written by hand, with tools that read logs from the clipboard, a file or `kubectl logs`\n" +
         "- **Privacy check:** before compressing, komp refuses text that isn't logs, such as `.env` files and SSH keys, and redacts secrets and personal data on the user's machine\n" +
         "- **Results:** over 99% fewer tokens on each of the four test logs (Go, Spring Boot, Node.js, kubelet)\n" +
-        "- **Real run:** tested in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
-        "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, with a canvas animation of 2,001 blocks (one per log line) collapsing into the 11-line summary\n" +
-        "- **Shipping:** 34 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
+        "- **Benchmarks:** on an Apple M5 Mac with 16 GB of memory, the 2 MB v0.2.0 binary handles a 2,001-line log in 27 ms with 15.8 MB peak memory, and the same log repeated to 100,050 lines in 632 ms with 131.5 MB (0.80% of system memory)\n" +
+        "- **Compared with shell tools:** across the four test logs, komp kept all 14 facts from its test suite in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259 and `grep` for errors and warnings kept 9 in ~35,083\n" +
+        "- **Real run:** tested v0.1.0 in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
+        "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, with a canvas animation of 2,001 blocks (one per log line) collapsing into the 11-line summary, plus interactive benchmark charts\n" +
+        "- **Shipping:** 45 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
       technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions", "Next.js"],
       links: [
         {
