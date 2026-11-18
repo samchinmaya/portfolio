@@ -55,7 +55,7 @@ export const DATA = {
   description:
     "Backend developer building toward quantitative development through C++, probability, and systems engineering. Currently building an n8n clone in TypeScript.",
   summary:
-    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM. I also contribute to open source: I have had {{mergedPRs}} pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
+    "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM, and I recently shipped [комп](https://samchinmaya.github.io/komp), a Rust CLI and MCP server that shrinks logs before Claude reads them. I also contribute to open source: I have had {{mergedPRs}} pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   // Used in the summary when GitHub can't be reached; normally the live count replaces it.
   mergedPRsFallback: 96,
   avatarUrl: "/me.webp",
@@ -167,12 +167,14 @@ export const DATA = {
       dates: "Nov 2026",
       active: true,
       description:
-        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~300 tokens instead of ~76,000 and the raw logs never enter the conversation.\n\n" +
+        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~312 tokens instead of ~75,958 and the raw logs never enter the conversation. It checks logs for secrets locally first, and I tested it in a real Claude Code session with its networking blocked.\n\n" +
         "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, turns variable parts (IDs, IPs, durations) into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
         "- **Keeps what matters:** errors keep their values and stack traces (framework frames folded), exceptions join the error line they belong to, and values bunched in time, like 503s during an outage, get their own line\n" +
         "- **MCP server:** JSON-RPC 2.0 over stdio written by hand, with tools that read logs from the clipboard, a file or `kubectl logs`\n" +
+        "- **Privacy check:** before compressing, komp refuses text that isn't logs, such as `.env` files and SSH keys, and redacts secrets and personal data on the user's machine\n" +
         "- **Results:** over 99% fewer tokens on each of the four test logs (Go, Spring Boot, Node.js, kubelet)\n" +
-        "- **Shipping:** 22 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
+        "- **Real run:** tested in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
+        "- **Shipping:** 34 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
       technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions"],
       links: [
         {

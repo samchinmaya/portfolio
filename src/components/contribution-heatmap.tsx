@@ -51,7 +51,7 @@ export function ContributionHeatmap({ data }: { data: Contributions }) {
   const height = TOP + 7 * STEP;
 
   return (
-    <figure className="flex flex-col gap-3">
+    <figure className="flex min-w-0 flex-col gap-3">
       <div className="overflow-x-auto">
         <svg
           viewBox={`0 0 ${width} ${height}`}
