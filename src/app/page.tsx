@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import BlurFade from "@/components/magicui/blur-fade";
+import BoxReveal from "@/components/magicui/box-reveal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DATA } from "@/data/resume";
 import Markdown from "react-markdown";
@@ -134,12 +135,12 @@ export default async function Page() {
           </BlurFade>
           <div className="flex max-w-2xl flex-wrap gap-2">
             {DATA.skills.map((skill, id) => (
-              <BlurFade key={skill.name} delay={BLUR_FADE_DELAY * 6 + id * 0.05}>
+              <BoxReveal key={skill.name} index={id}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div
                       aria-label={skill.name}
-                      className="border border-border bg-background size-11 flex items-center justify-center text-foreground hover:bg-muted transition-colors"
+                      className="border border-border bg-background size-11 flex items-center justify-center text-foreground transition-[background-color,border-color,transform] duration-200 hover:border-foreground/40 hover:bg-muted motion-safe:hover:-translate-y-0.5"
                     >
                       <skill.icon
                         aria-hidden
@@ -157,7 +158,7 @@ export default async function Page() {
                     <TooltipArrow className="fill-primary" />
                   </TooltipContent>
                 </Tooltip>
-              </BlurFade>
+              </BoxReveal>
             ))}
           </div>
         </div>

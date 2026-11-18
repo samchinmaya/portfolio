@@ -1,8 +1,6 @@
-import BlurFade from "@/components/magicui/blur-fade";
+import BoxReveal from "@/components/magicui/box-reveal";
 import { ProjectCard } from "@/components/project-card";
 import { DATA } from "@/data/resume";
-
-const BLUR_FADE_DELAY = 0.04;
 
 export default function ProjectsSection() {
     return (
@@ -11,9 +9,9 @@ export default function ProjectsSection() {
                 <p className="mb-4 max-w-xl text-sm leading-6 text-muted-foreground">A few systems I&apos;m building to learn the parts of software that matter in production.</p>
                 <div className="grid grid-cols-1 gap-0">
                     {DATA.projects.map((project, id) => (
-                        <BlurFade
+                        <BoxReveal
                             key={project.title}
-                            delay={BLUR_FADE_DELAY * 7 + id * 0.05}
+                            index={id}
                             className="h-full"
                         >
                             <ProjectCard
@@ -27,7 +25,7 @@ export default function ProjectsSection() {
                                 video={project.video}
                                 links={project.links}
                             />
-                        </BlurFade>
+                        </BoxReveal>
                     ))}
                 </div>
             </div>

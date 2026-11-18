@@ -60,7 +60,7 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "group grid gap-5 border-t border-border py-7 first:border-t-0 sm:grid-cols-[8.5rem_1fr_auto] sm:gap-8",
+        "group -mx-3 grid gap-5 border border-transparent border-t-border px-3 py-7 transition-[background-color,border-color,transform] duration-200 first:border-t-transparent hover:border-border hover:bg-muted/30 motion-safe:hover:-translate-y-0.5 sm:grid-cols-[8.5rem_1fr_auto] sm:gap-8",
         className
       )}
     >
