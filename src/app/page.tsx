@@ -73,6 +73,9 @@ export default async function Page() {
                 <a href="#projects" className="group inline-flex items-center gap-2 border-b border-foreground pb-1 font-medium hover:text-muted-foreground transition-colors">
                   Explore selected work <ArrowDownRight className="size-4 transition-transform group-hover:translate-y-0.5" />
                 </a>
+                <a href={DATA.resumeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
+                  Resume <ArrowUpRight className="size-3.5" />
+                </a>
                 <a href={DATA.contact.social.GitHub.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
                   GitHub <ArrowUpRight className="size-3.5" />
                 </a>
@@ -181,10 +184,33 @@ export default async function Page() {
           </div>
         </BlurFade>
       </section>
+      <section id="code-reviews" className="scroll-mt-8">
+        <BlurFade delay={BLUR_FADE_DELAY * 7}>
+          <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
+            <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">06 · Code reviews</h2>
+            <div className="min-w-0">
+              <p className="max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">Reviews I gave on other contributors&apos; open-source pull requests.</p>
+              <ul className="mt-5 border-b border-border">
+                {DATA.codeReviews.map((review) => (
+                  <li key={review.href} className="border-t border-border">
+                    <a href={review.href} target="_blank" rel="noopener noreferrer" className="group grid gap-1.5 py-4 transition-colors hover:bg-muted/30 sm:grid-cols-[14rem_minmax(0,1fr)_4rem] sm:gap-5">
+                      <span className="inline-flex items-center gap-1 text-sm font-medium">
+                        {review.pullRequest} <ArrowUpRight className="size-3.5 text-muted-foreground transition-transform group-hover:-translate-y-0.5" />
+                      </span>
+                      <span className="text-sm leading-6 text-muted-foreground">{review.summary}</span>
+                      <span className="text-[11px] uppercase leading-6 tracking-[0.12em] text-muted-foreground sm:text-right">{review.status}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </BlurFade>
+      </section>
       <section id="projects">
         <BlurFade delay={BLUR_FADE_DELAY * 7}>
           <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
-            <div className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">06 · Work</div>
+            <div className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">07 · Work</div>
             <ProjectsSection />
           </div>
         </BlurFade>
@@ -192,7 +218,7 @@ export default async function Page() {
       <section id="contact">
         <BlurFade delay={BLUR_FADE_DELAY * 8}>
           <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
-            <div className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">07 · Contact</div>
+            <div className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">08 · Contact</div>
             <ContactSection />
           </div>
         </BlurFade>

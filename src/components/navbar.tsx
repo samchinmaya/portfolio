@@ -9,9 +9,9 @@ export default function Navbar() {
         <span className="px-2 text-xs font-semibold tracking-[-0.08em]">CS</span>
         <Separator orientation="vertical" className="mx-1 h-5 bg-border" />
         {DATA.navbar.map((item) => {
-          const isExternal = item.href.startsWith("http");
+          const opensNewTab = item.href.startsWith("http") || item.href.endsWith(".pdf");
           return (
-            <a key={item.href} href={item.href} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener noreferrer" : undefined} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+            <a key={item.href} href={item.href} aria-label={item.label} target={opensNewTab ? "_blank" : undefined} rel={opensNewTab ? "noopener noreferrer" : undefined} className="flex items-center gap-1.5 px-2 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
               <item.icon className="size-3.5" />
               <span className="hidden sm:inline">{item.label}</span>
             </a>

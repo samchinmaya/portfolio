@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { GitPullRequest, HomeIcon } from "lucide-react";
+import { FileText, GitPullRequest, HomeIcon } from "lucide-react";
 import type { IconType } from "react-icons";
 import {
   SiBun,
@@ -59,10 +59,39 @@ export const DATA = {
   // Used in the summary when GitHub can't be reached; normally the live count replaces it.
   mergedPRsFallback: 96,
   avatarUrl: "/me.webp",
+  resumeUrl: "/Chinmaya_Samantara_Resume.pdf",
   skills,
+  // Reviews and review comments on other contributors' pull requests.
+  codeReviews: [
+    {
+      pullRequest: "Apache Fineract #6936",
+      href: "https://github.com/apache/fineract/pull/6936#issuecomment-6902298534",
+      status: "Open",
+      summary: "Suggested the shared ObjectMapper. The author adopted it, and a maintainer credited the comment.",
+    },
+    {
+      pullRequest: "Apache Fineract #6478",
+      href: "https://github.com/apache/fineract/pull/6478#pullrequestreview-5562422574",
+      status: "Merged",
+      summary: "Restored the old query to prove the new PostgreSQL regression test catches the bug.",
+    },
+    {
+      pullRequest: "Apache Fineract #6500",
+      href: "https://github.com/apache/fineract/pull/6500#pullrequestreview-5562187053",
+      status: "Merged",
+      summary: "Compared develop and the pull request on PostgreSQL to verify a savings balance fix.",
+    },
+    {
+      pullRequest: "p5.js Web Editor #4305",
+      href: "https://github.com/processing/p5.js-web-editor/pull/4305#pullrequestreview-5333412612",
+      status: "Open",
+      summary: "Traced a dropdown bug to a reducer crash and suggested the regression test later added.",
+    },
+  ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/open-source", icon: GitPullRequest, label: "Open Source" },
+    { href: "/Chinmaya_Samantara_Resume.pdf", icon: FileText, label: "Resume" },
   ],
   contact: {
     social: {
