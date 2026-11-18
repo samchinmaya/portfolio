@@ -174,8 +174,9 @@ export const DATA = {
         "- **Privacy check:** before compressing, komp refuses text that isn't logs, such as `.env` files and SSH keys, and redacts secrets and personal data on the user's machine\n" +
         "- **Results:** over 99% fewer tokens on each of the four test logs (Go, Spring Boot, Node.js, kubelet)\n" +
         "- **Real run:** tested in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
+        "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, with a canvas animation of 2,001 blocks (one per log line) collapsing into the 11-line summary\n" +
         "- **Shipping:** 34 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
-      technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions"],
+      technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions", "Next.js"],
       links: [
         {
           type: "Website",
