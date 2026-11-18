@@ -12,6 +12,11 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // open to anyone with the link, but kept out of search results
+      {
+        source: "/Chinmaya_Samantara_Resume.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
       {
         source: "/:path*",
         headers: [
