@@ -9,7 +9,7 @@ import { getContributions, getMergedPRs, getOpenPRs, getRecentCommits } from "@/
 import { AutoSlider } from "@/components/auto-slider";
 import ContactSection from "@/components/section/contact-section";
 import OpenSourceSection from "@/components/section/open-source-section";
-import ProjectsSection from "@/components/section/projects-section";
+import { YearDial, type YearMonth } from "@/components/section/year-dial";
 import {
   Tooltip,
   TooltipArrow,
@@ -33,14 +33,41 @@ export default async function Page() {
   const mergedCount = prs ? prs.filter((pr) => listedRepos.has(pr.repo)).length : DATA.mergedPRsFallback;
   const summary = DATA.summary.replace("{{mergedPRs}}", String(mergedCount));
 
+  const mergedByMonth: Record<string, number> = prs ? {} : DATA.mergedPRsByMonthFallback;
+  prs?.filter((pr) => listedRepos.has(pr.repo)).forEach((pr) => {
+    const month = pr.mergedAt.slice(0, 7);
+    mergedByMonth[month] = (mergedByMonth[month] ?? 0) + 1;
+  });
+  const yearMonths: YearMonth[] = [...new Set([...Object.keys(DATA.yearEvents), ...Object.keys(mergedByMonth), ...DATA.projects.map((project) => project.month)])]
+    .filter((key) => key.startsWith("2026-"))
+    .sort()
+    .map((key) => {
+      const date = new Date(`${key}-01T00:00:00Z`);
+      const merged = mergedByMonth[key];
+      return {
+        key,
+        name: date.toLocaleString("en", { month: "long", timeZone: "UTC" }),
+        short: date.toLocaleString("en", { month: "short", timeZone: "UTC" }),
+        projects: DATA.projects
+          .filter((project) => project.month === key)
+          .map((project) => ({
+            title: project.title,
+            href: project.href,
+            summary: project.description.split("\n\n")[0],
+            tags: project.technologies.slice(0, 4),
+            links: project.links,
+          })),
+        items: [
+          ...(merged ? [{ title: `${merged} pull ${merged === 1 ? "request" : "requests"} merged`, detail: "Across Mifos X and Apache Fineract.", href: "/open-source" }] : []),
+          ...(DATA.yearEvents[key] ?? []),
+        ],
+      };
+    });
+
   return (
     <main className="portfolio-blackbook min-h-dvh flex flex-col gap-20 pb-8 sm:gap-28">
       <section id="hero" className="min-h-[calc(100dvh-11rem)] flex items-center">
         <div className="w-full">
-          <div className="flex items-center justify-between border-y border-border py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-            <span>Chinmaya Samantara</span>
-            <span className="flex items-center gap-2"><span className="size-1.5 rounded-full bg-emerald-700 dark:bg-[#39d353] animate-pulse" />Currently building</span>
-          </div>
           <div className="py-16 sm:py-24">
             <div>
               <BlurFade delay={BLUR_FADE_DELAY}>
@@ -208,12 +235,13 @@ export default async function Page() {
         </BlurFade>
       </section>
       <section id="projects">
-        <BlurFade delay={BLUR_FADE_DELAY * 7}>
-          <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_1fr]">
-            <div className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">07 · Work</div>
-            <ProjectsSection />
+        <div className="grid gap-5 border-t border-border pt-5 sm:grid-cols-[9rem_minmax(0,1fr)]">
+          <h2 className="text-[11px] uppercase tracking-[0.16em] text-emerald-700 dark:text-[#39d353]">07 · Work</h2>
+          <div className="min-w-0">
+            <p className="max-w-xl text-sm leading-6 text-muted-foreground">A few systems I&apos;m building to learn the parts of software that matter in production.</p>
+            <YearDial months={yearMonths} />
           </div>
-        </BlurFade>
+        </div>
       </section>
       <section id="contact">
         <BlurFade delay={BLUR_FADE_DELAY * 8}>

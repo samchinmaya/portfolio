@@ -58,6 +58,19 @@ export const DATA = {
     "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM, and I recently shipped [комп](https://samchinmaya.github.io/komp), a Rust CLI and MCP server that shrinks logs before Claude reads them. I also contribute to open source: I have had {{mergedPRs}} pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   // Used in the summary when GitHub can't be reached; normally the live count replaces it.
   mergedPRsFallback: 98,
+  mergedPRsByMonthFallback: { "2026-10": 81, "2026-11": 17 } as Record<string, number>,
+  // Dated work shown on the year dial. Merged pull request counts are added per month.
+  yearEvents: {
+    "2026-02": [
+      { title: "Started at 100xDevs", detail: "Backend engineer: REST APIs, MongoDB schemas, JWT auth and file uploads." },
+    ],
+    "2026-09": [
+      { title: "Started reviewing pull requests", detail: "Code reviews on Apache Fineract and the p5.js Web Editor.", href: "#code-reviews" },
+    ],
+    "2026-11": [
+      { title: "Mifos deployed my contributions", detail: "My self-service work went onto the online banking demo." },
+    ],
+  } as Record<string, { title: string; detail: string; href?: string }[]>,
   avatarUrl: "/me.webp",
   resumeUrl: "/Chinmaya_Samantara_Resume.pdf",
   skills,
@@ -194,9 +207,10 @@ export const DATA = {
       title: "комп (komp)",
       href: "https://samchinmaya.github.io/komp",
       dates: "Nov 2026",
+      month: "2026-11",
       active: true,
       description:
-        "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~344 tokens instead of ~75,958 and the raw logs never enter the conversation. Version 0.2.0 groups logs with Drain-style template mining and compresses that log in 27 ms with 15.8 MB of peak memory on an Apple M5 Mac. Across four test logs it kept all 14 facts I checked in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259. It also checks logs for secrets locally, and I tested it in a real Claude Code session with its networking blocked.\n\n" +
+        "A Rust CLI and MCP server that compresses logs on your machine before Claude reads them. A 2,001-line log drops from ~75,958 tokens to ~344, and the raw logs never enter the conversation.\n\n" +
         "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, mines templates with a Drain-style parse tree, turns differing tokens into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
         "- **Keeps what matters:** errors keep their values and stack traces (framework frames folded), exceptions join the error line they belong to, and values bunched in time, like 503s during an outage, get their own line\n" +
         "- **Real-world logs (merged after v0.2.0):** unwraps Docker, containerd, `kubectl --prefix` and Docker Compose output, parses nginx and Apache access logs with severity from the HTTP status, caps very long lines and total summary size while keeping errors first, and refuses gzip and binary input\n" +
@@ -233,6 +247,7 @@ export const DATA = {
       title: "n8n Clone",
       href: "https://github.com/samchinmaya/n8n",
       dates: "In progress · Oct 2026",
+      month: "2026-10",
       active: true,
       description:
         "A workflow automation tool inspired by n8n, built from scratch in TypeScript. Users chain nodes like HTTP Request and Set into a workflow and run it by hand, from a webhook or on a cron schedule. The backend API is nearly done; the visual editor is next.\n\n" +
