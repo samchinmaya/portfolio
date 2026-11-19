@@ -57,7 +57,7 @@ export const DATA = {
   summary:
     "I build backend systems and I am working toward quantitative development through C++, probability, algorithms, and careful systems engineering. I learn by rebuilding real products from scratch, which has taught me authentication, data modelling, file uploads, and API design. Right now I am building an [n8n clone](https://github.com/samchinmaya/n8n) with Bun, Elysia, PostgreSQL, and Drizzle ORM, and I recently shipped [комп](https://samchinmaya.github.io/komp), a Rust CLI and MCP server that shrinks logs before Claude reads them. I also contribute to open source: I have had {{mergedPRs}} pull requests merged into [Mifos X](https://github.com/openMF/web-app), its new [React app](https://github.com/openMF/mifos-x-web-app-react), its [AI self-service server](https://github.com/openMF/mcp-mifosx-self-service) and [self-service plugin](https://github.com/openMF/selfservice-plugin), and [Apache Fineract](https://github.com/apache/fineract), the open-source core banking stack. I am looking for opportunities to learn from and contribute to a team.",
   // Used in the summary when GitHub can't be reached; normally the live count replaces it.
-  mergedPRsFallback: 96,
+  mergedPRsFallback: 98,
   avatarUrl: "/me.webp",
   resumeUrl: "/Chinmaya_Samantara_Resume.pdf",
   skills,
@@ -176,7 +176,7 @@ export const DATA = {
       org: "openMF",
       href: "https://github.com/openMF/selfservice-plugin/pulls?q=is%3Apr+author%3Asamchinmaya+is%3Amerged",
       summary:
-        "Fineract plugin behind the Mifos X mobile and online banking apps. Added self-service endpoints for loan guarantors, stopped a customer from moving a savings application to another client or a group, kept a beneficiary's transfer limit when it is renamed, and fixed external beneficiaries that lost their IBAN or phone number or were saved where the customer could never see them. The maintainers have deployed these changes behind the live [Mifos online banking](https://online-banking.mifos.community) app.",
+        "Fineract plugin behind the Mifos X mobile and online banking apps. Added self-service endpoints for loan guarantors, stopped a customer from moving a savings application to another client or a group, kept a beneficiary's transfer limit when it is renamed, fixed external beneficiaries that lost their IBAN or phone number or were saved where the customer could never see them, fixed mobile registration failing when a customer gave a middle name, and made withdrawing a savings application actually withdraw it before telling the customer it was done. The maintainers have deployed my contributions behind the live [Mifos online banking](https://online-banking.mifos.community) app.",
       technologies: ["Java", "Spring Boot", "Fineract"],
     },
     {
@@ -199,6 +199,7 @@ export const DATA = {
         "A Rust CLI and MCP server that compresses Kubernetes and application logs before Claude reads them. Engineers copy logs and ask Claude what's wrong; komp reads the clipboard on their machine and hands Claude a short summary, so a 2,001-line log costs ~344 tokens instead of ~75,958 and the raw logs never enter the conversation. Version 0.2.0 groups logs with Drain-style template mining and compresses that log in 27 ms with 15.8 MB of peak memory on an Apple M5 Mac. Across four test logs it kept all 14 facts I checked in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259. It also checks logs for secrets locally, and I tested it in a real Claude Code session with its networking blocked.\n\n" +
         "- **Compressor:** a five-step pipeline that parses plain text, JSON, logfmt, klog and syslog lines, mines templates with a Drain-style parse tree, turns differing tokens into slots, and merges repeats into one line with counts, time ranges and value ranges\n" +
         "- **Keeps what matters:** errors keep their values and stack traces (framework frames folded), exceptions join the error line they belong to, and values bunched in time, like 503s during an outage, get their own line\n" +
+        "- **Real-world logs (merged after v0.2.0):** unwraps Docker, containerd, `kubectl --prefix` and Docker Compose output, parses nginx and Apache access logs with severity from the HTTP status, caps very long lines and total summary size while keeping errors first, and refuses gzip and binary input\n" +
         "- **MCP server:** JSON-RPC 2.0 over stdio written by hand, with tools that read logs from the clipboard, a file or `kubectl logs`\n" +
         "- **Privacy check:** before compressing, komp refuses text that isn't logs, such as `.env` files and SSH keys, and redacts secrets and personal data on the user's machine\n" +
         "- **Results:** over 99% fewer tokens on each of the four test logs (Go, Spring Boot, Node.js, kubelet)\n" +
@@ -206,7 +207,7 @@ export const DATA = {
         "- **Compared with shell tools:** across the four test logs, komp kept all 14 facts from its test suite in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259 and `grep` for errors and warnings kept 9 in ~35,083\n" +
         "- **Real run:** tested v0.1.0 in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
         "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, with a canvas animation of 2,001 blocks (one per log line) collapsing into the 11-line summary, plus interactive benchmark charts\n" +
-        "- **Shipping:** 45 tests, CI on Linux, macOS and Windows, release binaries for 5 platforms and a checksum-verified one-line installer",
+        "- **Shipping:** 59 tests, CI on Linux, macOS and Windows with format and strict lint checks, release binaries for 5 platforms and a checksum-verified one-line installer",
       technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions", "Next.js"],
       links: [
         {
