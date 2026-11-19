@@ -220,7 +220,7 @@ export const DATA = {
         "- **Benchmarks:** on an Apple M5 Mac with 16 GB of memory, the 2 MB v0.2.0 binary handles a 2,001-line log in 27 ms with 15.8 MB peak memory, and the same log repeated to 100,050 lines in 632 ms with 131.5 MB (0.80% of system memory)\n" +
         "- **Compared with shell tools:** across the four test logs, komp kept all 14 facts from its test suite in ~1,177 tokens, while `tail -n 100` kept 10 in ~17,259 and `grep` for errors and warnings kept 9 in ~35,083\n" +
         "- **Real run:** tested v0.1.0 in a Claude Code session on macOS with komp's networking blocked by the system sandbox; Claude found the cause of the outage from the 11-line summary\n" +
-        "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, with a canvas animation of 2,001 blocks (one per log line) collapsing into the 11-line summary, plus interactive benchmark charts\n" +
+        "- **Website:** a Next.js site where scrolling plays the recorded Claude Code run, zooming between the terminal and the result, scroll-driven sections that walk through the five compression steps and the features komp keeps, and interactive benchmark charts\n" +
         "- **Shipping:** 59 tests, CI on Linux, macOS and Windows with format and strict lint checks, release binaries for 5 platforms and a checksum-verified one-line installer",
       technologies: ["Rust", "MCP", "JSON-RPC", "Regex", "Kubernetes", "GitHub Actions", "Next.js"],
       links: [
